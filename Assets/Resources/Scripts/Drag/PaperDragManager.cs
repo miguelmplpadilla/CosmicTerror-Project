@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,10 +10,25 @@ namespace Resources.Scripts
     {
         public bool isOnPaperContainer = false;
         public bool isOnFileDesk = false;
+        
+        private bool _lockedOnPaper = false;
 
         public Vector3 typewriterScale = Vector3.one;
+        public Vector3 corkScale = Vector3.one;
+
+        public float distanceMaxPaperContainer = 250;
+        public float distanceMaxFileDesk = 300;
+
+        public float distancePaperContainer = 0;
+        public float distanceFileDesk = 0;
 
         private GameObject _fileDesk;
+        public PushpinController pushpin;
+
+        public TextMeshProUGUI inputTextPaper;
+
+        public int countLines = 0;
+        public int countLetters = 0;
 
         protected override void Start()
         {
@@ -20,54 +37,118 @@ namespace Resources.Scripts
             _fileDesk = GameObject.Find("FilePaper");
         }
 
-        protected override void Drag(PointerEventData eventData)
+        private void Update()
         {
-            float distancePaperContainer = Vector2.Distance(TypewriterManager.instance.centerPaper.transform.position,
-                transform.position);
-            isOnPaperContainer = distancePaperContainer < 250;
-            
-            float distanceFileDesk = Vector2.Distance(new Vector2(_fileDesk.transform.position.x, 0),
-                new Vector2(transform.position.x, 0));
-            isOnFileDesk = distanceFileDesk < 300;
-            
-            if (!isOnPaperContainer) base.Drag(eventData);
+            distancePaperContainer = Vector2.Distance(
+                TypewriterManager.instance.centerPaper.transform.position,
+                transform.position
+            );
+
+            if (!_lockedOnPaper)
+            {
+                isOnPaperContainer = distancePaperContainer < distanceMaxPaperContainer;
+
+                if (isOnPaperContainer)
+                    _lockedOnPaper = true;
+            }
             else
             {
-                SetSize(true);
-                transform.localScale = typewriterScale;
-            }
+                isOnPaperContainer = distancePaperContainer < (distanceMaxPaperContainer + 30);
 
+                if (!isOnPaperContainer)
+                    _lockedOnPaper = false;
+            }
+            
+            distanceFileDesk = Mathf.Abs(transform.position.x - _fileDesk.transform.position.x);
+
+            isOnFileDesk = !_lockedOnPaper && distanceFileDesk < distanceMaxFileDesk;
+        }
+
+        protected override void BeginDrag(PointerEventData eventData)
+        {
+            base.BeginDrag(eventData);
+
+            _lockedOnPaper = isOnPaperContainer;
+
+            if (isOnPaperContainer)
+            {
+                TypewriterManager.instance.paperDragManager = null;
+                TypewriterManager.instance.ExtendMaskPaper(true);
+                return;
+            }
+            
+            transform.SetParent(GameManager.instance.panelGlobalObjects.transform);
+        }
+
+        protected override void Drag(PointerEventData eventData)
+        {
             Vector3 finalRotation = Vector3.zero;
 
-            if (isOnFileDesk)
+            if (isOnFileDesk && !isOnPaperContainer)
             {
                 finalRotation = new Vector3(0, 0, 90);
             }
 
-            transform.DORotate(finalRotation, 0.5f);
+            transform.DORotate(finalRotation, 0.3f);
             
-            Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(rt.parent as RectTransform, Input.mousePosition,
-                null, out localPoint);
-            if (isOnPaperContainer) localPoint.x = 0;
+            pushpin.gameObject.SetActive(false);
             
-            if (localPoint.y >= 0 || !isOnPaperContainer)
-                rt.anchoredPosition = localPoint;
+            GameObject currentContainer = GetContainer();
+            if (currentContainer != null && currentContainer.name.Equals("Cork"))
+            {
+                transform.localScale = corkScale;
+                pushpin.gameObject.SetActive(!isOnPaperContainer);
+            }
 
-            transform.SetParent(isOnPaperContainer
+            if (isOnPaperContainer && IsTheSameInputPaper())
+            {
+                SetSize(true);
+                transform.localScale = typewriterScale;
+            }
+            else
+            {
+                base.Drag(eventData);
+            }
+            
+            transform.SetParent(isOnPaperContainer && IsTheSameInputPaper()
                 ? TypewriterManager.instance.paperRT.transform
                 : GameManager.instance.panelGlobalObjects.transform);
+            
+            if (isOnPaperContainer && IsTheSameInputPaper())
+            {
+                pushpin.RemoveAllLines();
+                Vector2 localPoint;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rt.parent as RectTransform, Input.mousePosition,
+                    null, out localPoint);
+                localPoint.x = 0;
+                if (localPoint.y >= 0) rt.anchoredPosition = localPoint;
+            }
         }
 
         protected override void EndDrag(PointerEventData eventData)
         {
-            if (isOnPaperContainer)
+            Vector3 finalRotation = Vector3.zero;
+
+            if (isOnFileDesk) finalRotation = new Vector3(0, 0, 90);
+
+            transform.DOKill();
+            transform.DORotate(finalRotation, 0.3f);
+            
+            if (isOnPaperContainer && IsTheSameInputPaper())
             {
-                isAnimating = true;
-                rt.DOAnchorPosY(0, 0.3f).OnComplete(() =>
-                {
-                    isAnimating = false;
-                });
+                TypewriterManager.instance.paperDragManager = this;
+                
+                TypewriterManager.instance.CalculateVerticalPosition();
+                TypewriterManager.instance.CalculateHorizontalPosition();
+                
+                PutPaperInTypewriter();
+                return;
+            }
+            
+            GameObject currentContainer = GetContainer();
+            if (currentContainer != null && currentContainer.name.Equals("Cork"))
+            {
+                transform.SetParent(currentContainer.transform);
                 return;
             }
 
@@ -82,7 +163,48 @@ namespace Resources.Scripts
                 return;
             }
             
-            base.EndDrag(eventData);
+            if (IsOnBackContainer())
+            {
+                isAnimating = true;
+                transform.DOMoveY(deskContainer.transform.position.y, 0.3f).OnComplete(() =>
+                {
+                    isAnimating = false;
+                }).OnUpdate(() =>
+                {
+                    float distancePaperContainer = Vector2.Distance(TypewriterManager.instance.centerPaper.transform.position,
+                        transform.position);
+                    if (distancePaperContainer < distanceMaxPaperContainer)
+                    {
+                        rt.DOKill();
+                        transform.SetParent(TypewriterManager.instance.paperRT.transform);
+                        SetSize(true);
+                        transform.localScale = typewriterScale;
+                        transform.DORotate(Vector3.zero,0);
+                        rt.anchoredPosition = new Vector2(0, rt.anchoredPosition.y);
+                        PutPaperInTypewriter();
+                        return;
+                    }
+                    
+                    SetSize(GetContainerType());
+                });
+            }
+        }
+
+        private void PutPaperInTypewriter()
+        {
+            pushpin.RemoveAllLines();
+            isAnimating = true;
+            TypewriterManager.instance.ExtendMaskPaper(false);
+            rt.DOAnchorPosY(0, 0.3f).OnComplete(() =>
+            {
+                isAnimating = false;
+            });
+        }
+
+        private bool IsTheSameInputPaper()
+        {
+            return TypewriterManager.instance.paperDragManager == null ||
+                   TypewriterManager.instance.paperDragManager == this;
         }
     }
 }

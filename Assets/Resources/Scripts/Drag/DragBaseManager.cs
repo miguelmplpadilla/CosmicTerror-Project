@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,7 +18,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public GameObject objBig;
     public GameObject objSmall;
 
-    private GameObject deskContainer;
+    protected GameObject deskContainer;
 
     protected virtual void Awake()
     {
@@ -37,6 +36,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         transform.SetParent(GameManager.instance.panelGlobalObjects.transform);
         canDrag = true;
         isDraging = true;
+        ShowShadow(true);
         BeginDrag(eventData);
     }
     
@@ -56,28 +56,25 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     {
         rt.position = Input.mousePosition;
     }
-
+    
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!canDrag) return;
         isDraging = false;
         
+        ShowShadow(false);
         EndDrag(eventData);
     }
 
     protected virtual void EndDrag(PointerEventData eventData)
     {
-        GameObject container = GetContainer();
-        if (container != null)
+        if (IsOnBackContainer())
         {
-            if (container.name.Equals("BackContiner"))
+            isAnimating = true;
+            transform.DOMoveY(deskContainer.transform.position.y, 0.3f).OnComplete(() =>
             {
-                isAnimating = true;
-                transform.DOMoveY(deskContainer.transform.position.y, 0.3f).OnComplete(() =>
-                {
-                    isAnimating = false;
-                }).OnUpdate(() => SetSize(GetContainerType()));
-            }
+                isAnimating = false;
+            }).OnUpdate(() => SetSize(GetContainerType()));
         }
     }
 
@@ -105,7 +102,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         return false;
     }
 
-    private GameObject GetContainer()
+    protected GameObject GetContainer()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(Input.mousePosition, Vector2.zero, Mathf.Infinity);
 
@@ -116,5 +113,18 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
 
         return null;
+    }
+
+    protected bool IsOnBackContainer()
+    {
+        GameObject container = GetContainer();
+        
+        return container != null && container.name.Equals("BackContiner");
+    }
+
+    private void ShowShadow(bool show)
+    {
+        objBig.transform.GetChild(0).DOLocalMove(show ? new Vector3(20, -20, 0) : Vector3.zero, 0.2f);
+        objSmall.transform.GetChild(0).DOLocalMove(show ? new Vector3(20, -20, 0) : Vector3.zero, 0.2f);
     }
 }

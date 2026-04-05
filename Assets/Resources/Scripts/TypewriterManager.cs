@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -8,10 +9,11 @@ namespace Resources.Scripts
     {
         public static TypewriterManager instance;
         
-        public TextMeshProUGUI inputField;
-        
-        private int countLetters = 0;
-        public int countLines = 0;
+        public PaperDragManager paperDragManager;
+
+        public int maxLettersPerLine = 40;
+        public float horizontalSum = -5;
+        public float verticalSum = 8;
         
         public RectTransform paperContainerRt;
         public RectTransform paperRT;
@@ -24,6 +26,8 @@ namespace Resources.Scripts
 
         private string finalInput = "";
 
+        public RectTransform maskPaperRt;
+
         private void Awake()
         {
             instance = this;
@@ -31,9 +35,11 @@ namespace Resources.Scripts
 
         private void Update()
         {
+            if (paperDragManager == null) return;
+            
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                inputField.text += "\n";
+                paperDragManager.inputTextPaper.text += "\n";
                 SetJumpLine();
             }
             
@@ -45,7 +51,7 @@ namespace Resources.Scripts
                 {
                     if (input.Length == 1 && !char.IsControl(input[0]))
                     {
-                        finalInput = inputField.text + input;
+                        finalInput = paperDragManager.inputTextPaper.text + input;
                         keyLocked = true;
                         
                         if (finalInput[finalInput.Length - 1] != ' ')
@@ -57,7 +63,7 @@ namespace Resources.Scripts
             if (keyLocked && !Input.anyKey)
             {
                 keyLocked = false;
-                inputField.text = ReleaseKey();
+                paperDragManager.inputTextPaper.text = ReleaseKey();
             }
         }
 
@@ -80,7 +86,7 @@ namespace Resources.Scripts
                 }
 
                 // Medir ancho de la línea
-                if (currentLine.Length > 29)
+                if (currentLine.Length > maxLettersPerLine)
                 {
                     // Si la línea excede, mover el último carácter a la siguiente línea
                     currentLine = currentLine.Substring(0, currentLine.Length - 1);
@@ -90,10 +96,10 @@ namespace Resources.Scripts
             }
             processedText += currentLine;
             
-            countLetters++;
+            paperDragManager.countLetters++;
                 
-            paperContainerRt.anchoredPosition += new Vector2(-4.67f, 0);
-            if (countLetters == 29)
+            CalculateHorizontalPosition();
+            if (paperDragManager.countLetters == maxLettersPerLine)
             {
                 SetJumpLine();
             }
@@ -103,10 +109,26 @@ namespace Resources.Scripts
 
         private void SetJumpLine()
         {
-            countLines++;
+            paperDragManager.countLines++;
+            CalculateVerticalPosition();
+            paperDragManager.countLetters = 0;
+        }
+
+        public void CalculateVerticalPosition()
+        {
             paperContainerRt.anchoredPosition = Vector2.zero;
-            paperRT.anchoredPosition = new Vector2(0, countLines * 7.6f);
-            countLetters = 0;
+            paperRT.anchoredPosition = new Vector2(0, paperDragManager.countLines * verticalSum);
+        }
+        
+        public void CalculateHorizontalPosition()
+        {
+            paperContainerRt.anchoredPosition = new Vector2(horizontalSum * paperDragManager.countLetters, 0);
+        }
+
+        public void ExtendMaskPaper(bool extend, float timeAnimation = 0.6f)
+        {
+            maskPaperRt.DOKill();
+            maskPaperRt.DOSizeDelta(new Vector2(maskPaperRt.rect.size.x, extend ? 400 : 125), timeAnimation);
         }
     }
 }
