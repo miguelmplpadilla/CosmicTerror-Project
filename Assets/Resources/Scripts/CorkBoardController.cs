@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using DG.Tweening;
+using Resources.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,9 @@ public class CorkBoardController : MonoBehaviour
         
         isAnimating = true;
         isOpened = !isOpened;
+        
+        if (!isOpened) 
+            EventBus<CheckInsideCorkboard>.Raise(new CheckInsideCorkboard());
 
         buttonOpenCloseRt.DOAnchorPosX(isOpened ? -9.6541f : 0, 1);
         corkBoardRt.DOAnchorPosX(isOpened ? 490.3541f : 0, 1);

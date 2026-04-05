@@ -46,7 +46,10 @@ public class PushpinController : MonoBehaviour
     public void RemoveAllLines()
     {
         foreach (var line in currentLines)
+        {
+            if (line == null) continue; 
             ConnectionsController.instance.RemoveLine(line);
+        }
         
         currentLines.Clear();
     }

@@ -35,6 +35,13 @@ namespace Resources.Scripts
             base.Start();
             
             _fileDesk = GameObject.Find("FilePaper");
+            
+            EventBus<CheckInsideCorkboard>.Register(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
+        }
+
+        private void OnDestroy()
+        {
+            EventBus<CheckInsideCorkboard>.Deregister(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
         }
 
         private void Update()
@@ -205,6 +212,12 @@ namespace Resources.Scripts
         {
             return TypewriterManager.instance.paperDragManager == null ||
                    TypewriterManager.instance.paperDragManager == this;
+        }
+
+        private void IsInCorkBoard()
+        {
+            if (!transform.parent.name.Equals("Cork"))
+                pushpin.RemoveAllLines();
         }
     }
 }
