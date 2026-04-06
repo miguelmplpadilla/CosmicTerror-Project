@@ -123,7 +123,6 @@ namespace Resources.Scripts
             
             if (isOnPaperContainer && IsTheSameInputPaper())
             {
-                pushpin.RemoveAllLines();
                 Vector2 localPoint;
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(rt.parent as RectTransform, Input.mousePosition,
                     null, out localPoint);
