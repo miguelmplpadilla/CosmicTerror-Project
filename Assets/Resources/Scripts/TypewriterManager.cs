@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace Resources.Scripts
         {
             if (paperDragManager == null) return;
             
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && paperDragManager.isDefaultWritten)
             {
                 paperDragManager.inputTextPaper.text += "\n";
                 SetJumpLine();
@@ -51,6 +52,23 @@ namespace Resources.Scripts
                 {
                     if (input.Length == 1 && !char.IsControl(input[0]))
                     {
+                        if (!paperDragManager.isDefaultWritten)
+                        {
+                            var newInput = new string(input.Normalize(System.Text.NormalizationForm.FormD)
+                                .Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) !=
+                                            System.Globalization.UnicodeCategory.NonSpacingMark)
+                                .ToArray());
+                            if (!newInput.ToLower().Equals(GameManager.instance
+                                    .currentDefault[GameManager.instance.currentDefaultIndex]
+                                    .ToString().ToLower())) return;
+                            else
+                            {
+                                input = GameManager.instance.currentDefault[GameManager.instance.currentDefaultIndex]
+                                    .ToString();
+                                GameManager.instance.currentDefaultIndex++;
+                            }
+                        }
+                        
                         finalInput = paperDragManager.inputTextPaper.text + input;
                         keyLocked = true;
                         
@@ -60,10 +78,26 @@ namespace Resources.Scripts
                 }
             }
 
+            //TODO: Arreglar que no se levanta la tecla cuando se pulsa la primera letra
             if (keyLocked && !Input.anyKey)
             {
                 keyLocked = false;
                 paperDragManager.inputTextPaper.text = ReleaseKey();
+                
+                if (GameManager.instance.currentDefaultIndex == GameManager.instance.currentDefault.Length)
+                {
+                    paperDragManager.inputTextPaper.text += "\n";
+                    SetJumpLine();
+
+                    GameManager.instance.currentDefaultIndex = 0;
+
+                    if (GameManager.instance.currentDefault.Equals(GameManager.instance.currentMotv))
+                    {
+                        paperDragManager.isDefaultWritten = true;
+                    }
+
+                    GameManager.instance.currentDefault = GameManager.instance.currentMotv;
+                }
             }
         }
 
@@ -129,6 +163,11 @@ namespace Resources.Scripts
         {
             maskPaperRt.DOKill();
             maskPaperRt.DOSizeDelta(new Vector2(maskPaperRt.rect.size.x, extend ? 400 : 125), timeAnimation);
+        }
+
+        public void SetPaper()
+        {
+            GameManager.instance.currentDefault = GameManager.instance.currentName;
         }
     }
 }

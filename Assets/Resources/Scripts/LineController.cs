@@ -10,12 +10,14 @@ namespace Resources.Scripts
         public RectTransform pointB;
 
         private UILineRenderer _lineRenderer;
-        private UILineRenderer _lineRendererBold;
+        private UILineRenderer _lineRendererBold1;
+        private UILineRenderer _lineRendererBold2;
 
         private void Awake()
         {
             _lineRenderer = GetComponent<UILineRenderer>();
-            _lineRendererBold = transform.GetChild(0).GetComponent<UILineRenderer>();
+            _lineRendererBold1 = transform.GetChild(0).GetComponent<UILineRenderer>();
+            _lineRendererBold2 = transform.GetChild(1).GetComponent<UILineRenderer>();
         }
 
         private void Update()
@@ -40,17 +42,61 @@ namespace Resources.Scripts
         {
             if (pointA == null || pointB == null) return;
 
-            _lineRendererBold.transform.localScale = Vector3.one;
+            _lineRendererBold1.transform.localScale = Vector3.one;
+            _lineRendererBold2.transform.localScale = Vector3.one;
 
-            Vector2 positionDirectionA = GetPositionOnLine(pointA.position, pointB.position);
-            Vector2 positionDirectionB = GetPositionOnLine(pointB.position, pointA.position);
+            Vector2 positionDirectionRightDeskA = GetPositionOnLine(pointA.position, 
+                pointB.position, "RightDesk");
+            Vector2 positionDirectionDeskA = GetPositionOnLine(pointA.position, 
+                pointB.position, "Desk");
+            Vector2 positionDirectionRightDeskB = GetPositionOnLine(pointB.position, 
+                pointA.position, "RightDesk");
+            Vector2 positionDirectionDeskB = GetPositionOnLine(pointB.position, 
+                pointA.position, "Desk");
+
+            Vector2 finalPositionA = Vector2.Distance(positionDirectionRightDeskA, pointA.position) < 1 ||
+                                     positionDirectionRightDeskA == Vector2.zero
+                ? positionDirectionDeskA
+                : positionDirectionRightDeskA;
+
+            Vector2 finalPositionB = Vector2.Distance(positionDirectionRightDeskB, pointB.position) < 1 ||
+                                     positionDirectionRightDeskB == Vector2.zero
+                ? positionDirectionDeskB
+                : positionDirectionRightDeskB;
             
-            //TODO: Hacer que se dibuje la linea desde el lado mas lejano
+            float distanceA = Vector2.Distance(finalPositionA, pointA.position);
+            float distanceB = Vector2.Distance(finalPositionB, pointB.position);
+
+            Debug.Log("Distance A: "+distanceA+ " Distance B: "+distanceB);
+
+            if (finalPositionA != Vector2.zero && distanceA > 1)
+            {
+                List<Vector2> positionsLine = new List<Vector2>();
+                positionsLine.Add(CanvasToAnchoredPosition(finalPositionA));
+                positionsLine.Add(CanvasToAnchoredPosition(pointB.position));
             
-            _lineRendererBold.transform.localScale = Vector3.zero;
+                _lineRendererBold1.ModifyLinePoints(positionsLine.ToArray());
+            }
+            else
+            {
+                _lineRendererBold1.transform.localScale = Vector3.zero;
+            }
+            
+            if (finalPositionB != Vector2.zero && distanceB > 1)
+            {
+                List<Vector2> positionsLine = new List<Vector2>();
+                positionsLine.Add(CanvasToAnchoredPosition(finalPositionB));
+                positionsLine.Add(CanvasToAnchoredPosition(pointA.position));
+            
+                _lineRendererBold2.ModifyLinePoints(positionsLine.ToArray());
+            }
+            else
+            {
+                _lineRendererBold2.transform.localScale = Vector3.zero;
+            }
         }
         
-        private Vector2 GetPositionOnLine(Vector2 positionA, Vector2 positionB)
+        private Vector2 GetPositionOnLine(Vector2 positionA, Vector2 positionB, string keyName)
         {
             Vector2 origin = positionA;
             Vector2 direction = (positionB - origin).normalized;
@@ -59,7 +105,7 @@ namespace Resources.Scripts
             RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, distance);
             foreach (var hit in hits)
             {
-                if (hit.collider.gameObject.name.Equals("RightDesk") || hit.collider.gameObject.name.Equals("Desk"))
+                if (hit.collider.gameObject.name.Equals(keyName))
                     return hit.point;
             }
 

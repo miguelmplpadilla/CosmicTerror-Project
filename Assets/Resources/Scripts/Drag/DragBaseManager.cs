@@ -15,6 +15,8 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public Vector3 scaleBig;
     public Vector3 scaleSmall;
 
+    public Vector3 positionShadow = new Vector3(20, -20, 0);
+
     public GameObject objBig;
     public GameObject objSmall;
 
@@ -30,10 +32,11 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         deskContainer = GameObject.Find("DeskContiner");
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
         if (isAnimating) return;
         transform.SetParent(GameManager.instance.panelGlobalObjects.transform);
+        transform.SetAsLastSibling();
         canDrag = true;
         isDraging = true;
         ShowShadow(true);
@@ -124,7 +127,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     private void ShowShadow(bool show)
     {
-        objBig.transform.GetChild(0).DOLocalMove(show ? new Vector3(20, -20, 0) : Vector3.zero, 0.2f);
-        objSmall.transform.GetChild(0).DOLocalMove(show ? new Vector3(20, -20, 0) : Vector3.zero, 0.2f);
+        objBig.transform.GetChild(0).DOLocalMove(show ? positionShadow : Vector3.zero, 0.2f);
+        objSmall.transform.GetChild(0).DOLocalMove(show ? positionShadow : Vector3.zero, 0.2f);
     }
 }

@@ -25,10 +25,15 @@ namespace Resources.Scripts
         private GameObject _fileDesk;
         public PushpinController pushpin;
 
+        public GameObject stampsParent;
+
         public TextMeshProUGUI inputTextPaper;
+        public TextMeshProUGUI textDefault;
 
         public int countLines = 0;
         public int countLetters = 0;
+
+        public bool isDefaultWritten = false;
 
         protected override void Start()
         {
@@ -37,6 +42,8 @@ namespace Resources.Scripts
             _fileDesk = GameObject.Find("FilePaper");
             
             EventBus<CheckInsideCorkboard>.Register(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
+            
+            textDefault.text = GameManager.instance.currentName + "\n" + GameManager.instance.currentMotv;
         }
 
         private void OnDestroy()
@@ -51,24 +58,38 @@ namespace Resources.Scripts
                 transform.position
             );
 
-            if (!_lockedOnPaper)
+            if (TypewriterManager.instance.paperDragManager == null)
             {
-                isOnPaperContainer = distancePaperContainer < distanceMaxPaperContainer;
+                if (!_lockedOnPaper)
+                {
+                    isOnPaperContainer = distancePaperContainer < distanceMaxPaperContainer;
 
-                if (isOnPaperContainer)
-                    _lockedOnPaper = true;
-            }
-            else
-            {
-                isOnPaperContainer = distancePaperContainer < (distanceMaxPaperContainer + 30);
+                    if (isOnPaperContainer)
+                        _lockedOnPaper = true;
+                }
+                else
+                {
+                    isOnPaperContainer = distancePaperContainer < (distanceMaxPaperContainer + 30);
 
-                if (!isOnPaperContainer)
-                    _lockedOnPaper = false;
+                    if (!isOnPaperContainer)
+                        _lockedOnPaper = false;
+                }
             }
             
             distanceFileDesk = Mathf.Abs(transform.position.x - _fileDesk.transform.position.x);
 
             isOnFileDesk = !_lockedOnPaper && distanceFileDesk < distanceMaxFileDesk;
+        }
+
+        public override void OnBeginDrag(PointerEventData eventData)
+        {
+            if (isOnPaperContainer && !isDefaultWritten)
+            {
+                canDrag = false;
+                return;
+            }
+            
+            base.OnBeginDrag(eventData);
         }
 
         protected override void BeginDrag(PointerEventData eventData)
@@ -101,6 +122,7 @@ namespace Resources.Scripts
             pushpin.gameObject.SetActive(false);
             
             GameObject currentContainer = GetContainer();
+            Debug.Log("Current countainer: "+currentContainer);
             if (currentContainer != null && currentContainer.name.Equals("Cork"))
             {
                 transform.localScale = corkScale;
@@ -160,8 +182,10 @@ namespace Resources.Scripts
 
             if (isOnFileDesk)
             {
+                pushpin.RemoveAllLines();
                 transform.SetParent(_fileDesk.transform.GetChild(0));
                 isAnimating = true;
+                
                 rt.DOAnchorPosX(0, 0.3f).OnComplete(() =>
                 {
                     isAnimating = false;
@@ -205,6 +229,8 @@ namespace Resources.Scripts
             {
                 isAnimating = false;
             });
+            
+            TypewriterManager.instance.SetPaper();
         }
 
         private bool IsTheSameInputPaper()

@@ -37,6 +37,8 @@ public class CorkBoardController : MonoBehaviour
 
         buttonOpenCloseRt.DOAnchorPosX(isOpened ? -9.6541f : 0, 1);
         corkBoardRt.DOAnchorPosX(isOpened ? 490.3541f : 0, 1);
+        
+        buttonOpenCloseRt.GetChild(0).localScale = new Vector3(1, isOpened ? -1 : 1, 1);
 
         yield return new WaitForSeconds(1.05f);
 
