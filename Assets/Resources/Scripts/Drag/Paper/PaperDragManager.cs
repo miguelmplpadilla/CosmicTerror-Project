@@ -23,6 +23,8 @@ namespace Resources.Scripts
         public float distancePaperContainer = 0;
         public float distanceFileDesk = 0;
 
+        public Image[] imagesBackground;
+
         private GameObject _fileDesk;
         public PushpinController pushpin;
 
@@ -31,12 +33,14 @@ namespace Resources.Scripts
         public TextMeshProUGUI inputTextPaper;
         public TextMeshProUGUI textDefault;
 
-        public Button buttonSeparatePapers;
+        public GameObject buttonSeparatePapers;
 
         public int countLines = 0;
         public int countLetters = 0;
 
         public bool isDefaultWritten = false;
+        public bool canWrite = true;
+        public bool paperSeparated = false;
         
         public StampController.TypeStamp typeStamp = StampController.TypeStamp.NONE;
 
@@ -58,14 +62,12 @@ namespace Resources.Scripts
 
         private void Update()
         {
-            buttonSeparatePapers.gameObject.SetActive(isDefaultWritten && typeStamp != StampController.TypeStamp.NONE);
-            
             distancePaperContainer = Vector2.Distance(
                 TypewriterManager.instance.centerPaper.transform.position,
                 transform.position
             );
 
-            if (TypewriterManager.instance.paperDragManager == null)
+            if (TypewriterManager.instance.paperDragManager == null && canWrite && !paperSeparated)
             {
                 if (!_lockedOnPaper)
                 {
@@ -82,6 +84,11 @@ namespace Resources.Scripts
                         _lockedOnPaper = false;
                 }
             }
+            
+            bool canShowButtonSeparate = isDefaultWritten && typeStamp != StampController.TypeStamp.NONE &&
+                                         canWrite && !paperSeparated && !isOnPaperContainer;
+            
+            buttonSeparatePapers.transform.localScale = canShowButtonSeparate ? Vector3.one : Vector3.zero;
             
             distanceFileDesk = Mathf.Abs(transform.position.x - _fileDesk.transform.position.x);
 
