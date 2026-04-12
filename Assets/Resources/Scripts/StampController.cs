@@ -14,6 +14,13 @@ public class StampController : DragBaseManager
 
     public GameObject prefabStamp;
     public BoxCollider2D boxCollider;
+    
+    public TypeStamp typeStamp;
+
+    public enum TypeStamp
+    {
+        NONE, HOSPITAL, PSYCOLOGIST, POLICE
+    }
 
     protected override void Awake()
     {
@@ -53,6 +60,9 @@ public class StampController : DragBaseManager
         
         if (paperDragManager != null)
         {
+            if (paperDragManager.typeStamp == TypeStamp.NONE) 
+                paperDragManager.typeStamp = typeStamp;
+            
             GameObject stampInstantiated = Instantiate(prefabStamp, GameManager.instance.panelGlobalObjects.transform);
             stampInstantiated.SetActive(false);
             stampInstantiated.transform.position = boxCollider.transform.position;

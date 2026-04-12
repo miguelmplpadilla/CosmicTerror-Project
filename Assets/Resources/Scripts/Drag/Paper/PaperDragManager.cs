@@ -3,6 +3,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Resources.Scripts
 {
@@ -30,10 +31,14 @@ namespace Resources.Scripts
         public TextMeshProUGUI inputTextPaper;
         public TextMeshProUGUI textDefault;
 
+        public Button buttonSeparatePapers;
+
         public int countLines = 0;
         public int countLetters = 0;
 
         public bool isDefaultWritten = false;
+        
+        public StampController.TypeStamp typeStamp = StampController.TypeStamp.NONE;
 
         protected override void Start()
         {
@@ -53,6 +58,8 @@ namespace Resources.Scripts
 
         private void Update()
         {
+            buttonSeparatePapers.gameObject.SetActive(isDefaultWritten && typeStamp != StampController.TypeStamp.NONE);
+            
             distancePaperContainer = Vector2.Distance(
                 TypewriterManager.instance.centerPaper.transform.position,
                 transform.position
