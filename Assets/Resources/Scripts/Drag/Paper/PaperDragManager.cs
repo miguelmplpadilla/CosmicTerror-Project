@@ -51,8 +51,6 @@ namespace Resources.Scripts
             _fileDesk = GameObject.Find("FilePaper");
             
             EventBus<CheckInsideCorkboard>.Register(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
-            
-            textDefault.text = GameManager.instance.currentName + "\n" + GameManager.instance.currentMotv;
         }
 
         private void OnDestroy()
@@ -93,6 +91,11 @@ namespace Resources.Scripts
             distanceFileDesk = Mathf.Abs(transform.position.x - _fileDesk.transform.position.x);
 
             isOnFileDesk = !_lockedOnPaper && distanceFileDesk < distanceMaxFileDesk;
+        }
+
+        private void LateUpdate()
+        {
+            textDefault.text = GameManager.instance.currentName + "\n" + GameManager.instance.currentMotv;
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
@@ -136,7 +139,6 @@ namespace Resources.Scripts
             pushpin.gameObject.SetActive(false);
             
             GameObject currentContainer = GetContainer();
-            Debug.Log("Current countainer: "+currentContainer);
             if (currentContainer != null && currentContainer.name.Equals("Cork"))
             {
                 transform.localScale = corkScale;

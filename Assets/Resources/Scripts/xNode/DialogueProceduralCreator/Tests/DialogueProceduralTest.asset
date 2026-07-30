@@ -1,0 +1,863 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8104374246536504562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -232, y: -1544}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: -8104374246536504562}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseOutput
+        node: {fileID: 7449231207133708237}
+        reroutePoints: []
+      - fieldName: baseOutput
+        node: {fileID: 5409831225738033729}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: -8104374246536504562}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 4252624708192152906}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: "No es muy fuerte, pero es extra\xF1o"
+    valueEnglish: 
+--- !u!114 &-7361798384427155398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 893828e8a6e14a7b939d17d49145c989, type: 3}
+  m_Name: Theme
+  m_EditorClassIdentifier: Assembly-CSharp::ThemeNode
+  graph: {fileID: 11400000}
+  position: {x: -2344, y: -648}
+  ports:
+    keys:
+    - introductionDialogues
+    - developmentDialogues
+    - outcomeDialogues
+    - baseInput
+    - decisionsIntroductionDialogues
+    - decisionsDevelopmentDialogues
+    values:
+    - _fieldName: introductionDialogues
+      _node: {fileID: -7361798384427155398}
+      _typeQualifiedName: DialogueNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 5858944070355581580}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 8470242497175567604}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 4163157100915631863}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: developmentDialogues
+      _node: {fileID: -7361798384427155398}
+      _typeQualifiedName: DialogueNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 5561688486189576725}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 3376177341410422102}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 5612864395941297656}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outcomeDialogues
+      _node: {fileID: -7361798384427155398}
+      _typeQualifiedName: DialogueNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: -6905302624124957621}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 5438586718904437171}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 1752561549481707616}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseInput
+      _node: {fileID: -7361798384427155398}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: themes
+        node: {fileID: -1614792886767636309}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: decisionsIntroductionDialogues
+      _node: {fileID: -7361798384427155398}
+      _typeQualifiedName: DialogueDecisionNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: decisionsDevelopmentDialogues
+      _node: {fileID: -7361798384427155398}
+      _typeQualifiedName: DialogueDecisionNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseInput: {fileID: 0}
+  themeKey: head
+  introductionDialogues: {fileID: 0}
+  decisionsIntroductionDialogues: {fileID: 0}
+  developmentDialogues: {fileID: 0}
+  decisionsDevelopmentDialogues: {fileID: 0}
+  outcomeDialogues: {fileID: 0}
+--- !u!114 &-6905302624124957621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1704, y: -200}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: -6905302624124957621}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outcomeDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: -6905302624124957621}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Me puedes ayudar?
+    valueEnglish: 
+--- !u!114 &-1614792886767636309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8dc97af59726ca42917543bec4776ab, type: 3}
+  m_Name: Category
+  m_EditorClassIdentifier: Assembly-CSharp::CategoryNode
+  graph: {fileID: 11400000}
+  position: {x: -2728, y: -632}
+  ports:
+    keys:
+    - themes
+    values:
+    - _fieldName: themes
+      _node: {fileID: -1614792886767636309}
+      _typeQualifiedName: ThemeNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  category: 1
+  stressThreshold: 1
+  themes: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84cf47f2c1842d547b843f395b723e80, type: 3}
+  m_Name: DialogueProceduralTest
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueProceduralCreator
+  nodes:
+  - {fileID: -1614792886767636309}
+  - {fileID: -7361798384427155398}
+  - {fileID: 5858944070355581580}
+  - {fileID: 8470242497175567604}
+  - {fileID: 4163157100915631863}
+  - {fileID: 5561688486189576725}
+  - {fileID: 3376177341410422102}
+  - {fileID: 5612864395941297656}
+  - {fileID: -6905302624124957621}
+  - {fileID: 5438586718904437171}
+  - {fileID: 1752561549481707616}
+  - {fileID: 2869439636029293415}
+  - {fileID: -8104374246536504562}
+  - {fileID: 4252624708192152906}
+  - {fileID: 7449231207133708237}
+  - {fileID: 5409831225738033729}
+--- !u!114 &1752561549481707616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -2120, y: 232}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 1752561549481707616}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outcomeDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 1752561549481707616}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Que puedo hacer?
+    valueEnglish: 
+--- !u!114 &2869439636029293415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -776, y: -1272}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 2869439636029293415}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseOutput
+        node: {fileID: 7449231207133708237}
+        reroutePoints: []
+      - fieldName: baseOutput
+        node: {fileID: 5409831225738033729}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 2869439636029293415}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Siempre he tenido dolores de cabeza pero este es impresionante
+    valueEnglish: 
+--- !u!114 &3376177341410422102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1432, y: -520}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 3376177341410422102}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: developmentDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 3376177341410422102}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: No se por que me esta pasando
+    valueEnglish: 
+--- !u!114 &4163157100915631863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1832, y: -1096}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 4163157100915631863}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: introductionDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 4163157100915631863}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 5409831225738033729}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Este dolor de cabeza me esta matando
+    valueEnglish: 
+--- !u!114 &4252624708192152906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -136, y: -1176}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 4252624708192152906}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseOutput
+        node: {fileID: -8104374246536504562}
+        reroutePoints: []
+      - fieldName: baseOutput
+        node: {fileID: 7449231207133708237}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 4252624708192152906}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Ahora mismo noto como aumenta
+    valueEnglish: 
+--- !u!114 &5409831225738033729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aed63776cda42f691dc93b4a5d29152, type: 3}
+  m_Name: Joint
+  m_EditorClassIdentifier: Assembly-CSharp::JointNode
+  graph: {fileID: 11400000}
+  position: {x: -1368, y: -1128}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 5409831225738033729}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseOutput
+        node: {fileID: 5858944070355581580}
+        reroutePoints: []
+      - fieldName: baseOutput
+        node: {fileID: 4163157100915631863}
+        reroutePoints: []
+      - fieldName: baseOutput
+        node: {fileID: 8470242497175567604}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 5409831225738033729}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 2869439636029293415}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: -8104374246536504562}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 7449231207133708237}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+--- !u!114 &5438586718904437171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1928, y: -24}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 5438586718904437171}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outcomeDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 5438586718904437171}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Hazlo parar porfavor
+    valueEnglish: 
+--- !u!114 &5561688486189576725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1784, y: -616}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 5561688486189576725}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: developmentDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 5561688486189576725}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Empezo de la nada
+    valueEnglish: 
+--- !u!114 &5612864395941297656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1752, y: -376}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 5612864395941297656}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: developmentDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 5612864395941297656}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Me he pegado contra el mueble
+    valueEnglish: 
+--- !u!114 &5858944070355581580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1880, y: -1320}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 5858944070355581580}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: introductionDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 5858944070355581580}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 5409831225738033729}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Hola doctor, me duele la cabeza
+    valueEnglish: 
+--- !u!114 &7449231207133708237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -888, y: -1000}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 7449231207133708237}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseOutput
+        node: {fileID: 5409831225738033729}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 7449231207133708237}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: -8104374246536504562}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 4252624708192152906}
+        reroutePoints: []
+      - fieldName: baseInput
+        node: {fileID: 2869439636029293415}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Hace tiempo que tengo un dolor de cabeza terrible
+    valueEnglish: 
+--- !u!114 &8470242497175567604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: -1816, y: -888}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: 8470242497175567604}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: introductionDialogues
+        node: {fileID: -7361798384427155398}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: 8470242497175567604}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 5409831225738033729}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: No puedo con el dolor
+    valueEnglish: 

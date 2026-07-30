@@ -1,14 +1,11 @@
-﻿namespace Resources.Scripts.xNode.DialogueCreator.Nodes
+﻿public class DialogueNode : ConectionsNode
 {
-    public class DialogueNode : ConectionsNode
-    {
-        public Speaker speaker;
-        public LocalizableString dialogueText;
+    public Speaker speaker = Speaker.NPC;
+    public LocalizableString dialogueText;
         
-        public enum Speaker
-        {
-            PLAYER,
-            NPC
-        }
+    public enum Speaker
+    {
+        PLAYER,
+        NPC
     }
 }

@@ -10,8 +10,9 @@ public class LocalizableString
         get
         {
             var locale = LocalizationSettings.SelectedLocale;
-
-            string language = PlayerPrefs.GetString("language", locale.Identifier.Code);
+            string language = PlayerPrefs.GetString("language", locale?.Identifier.Code ?? "es");
+            
+            language = language.Split('-')[0];
 
             switch (language)
             {

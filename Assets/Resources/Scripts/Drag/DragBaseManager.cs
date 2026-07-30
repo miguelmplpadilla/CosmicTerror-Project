@@ -7,6 +7,8 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 {
     protected RectTransform rt;
 
+    public DialogueCreator dialogue;
+
     protected bool canDrag = true;
     protected bool isDraging = true;
 
