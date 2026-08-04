@@ -18,7 +18,7 @@ public class DocumentData : ScriptableObject
             : DialogueProceduralManager.instance.CreateDialogue(DialogueProceduralManager.instance.globalDialoguesNotKnowDocument);
 
         foreach (var documentKnow in npc.knownDocuments)
-            if (documentKnow.document == obj)
+            if (documentKnow.document.name.Trim().Replace("(Clone)", "").Equals(obj.name))
                 return documentKnow.dialogueDocument;
 
         return currentDialogue;
