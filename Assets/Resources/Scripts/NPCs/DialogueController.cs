@@ -11,8 +11,6 @@ public class DialogueController : MonoBehaviour
     {
         public static DialogueController instance;
 
-        public DialogueCreator dialogueCreatorTest;
-
         public GameObject prefabDialogueText;
 
         public CanvasGroup panelOptionsDialogue;
@@ -23,18 +21,22 @@ public class DialogueController : MonoBehaviour
 
         public NPCBase currentNPCSpeaking;
 
+        public bool isPlayingDialogue = false;
+
         private void Awake()
         {
             instance = this;
         }
 
-        public void StartDialogue(DialogueCreator dialogue, NPCBase npcSpeaking)
+        public void StartDialogue(DialogueCreator dialogue, NPCBase npcSpeaking, float waitTime = 1)
         {
+            isPlayingDialogue = true;
             currentNPCSpeaking = npcSpeaking;
-            StartCoroutine(PlayDialogue(dialogue));
+            currentNPCSpeaking.canvasGroup.alpha = 0;
+            StartCoroutine(PlayDialogue(dialogue, waitTime));
         }
 
-        public IEnumerator PlayDialogue(DialogueCreator dialogueCreator)
+        public IEnumerator PlayDialogue(DialogueCreator dialogueCreator, float waitTime = 1)
         {
             StartDialogueNode startDialogueNode = dialogueCreator.nodes.Find(node => node is StartDialogueNode) as StartDialogueNode;
             NodePort outputPort = startDialogueNode.GetOutputPort(nameof(startDialogueNode.baseOutput));
@@ -42,8 +44,8 @@ public class DialogueController : MonoBehaviour
 
             if (firstDialogueNode == null) yield break;
 
-            currentNPCSpeaking.canvasGroup.DOFade(1, 1);
-            yield return new WaitForSeconds(1.2f);
+            currentNPCSpeaking.canvasGroup.DOFade(1, waitTime);
+            yield return new WaitForSeconds(waitTime + 0.2f);
 
             StartCoroutine(PlayNode(firstDialogueNode));
         }
@@ -73,6 +75,7 @@ public class DialogueController : MonoBehaviour
 
             if (nextNode == null)
             {
+                isPlayingDialogue = false;
                 Debug.Log("End Dialogue");
                 yield break;
             }
@@ -121,50 +124,89 @@ public class DialogueController : MonoBehaviour
         {
             currentNPCSpeaking.canvasGroup.DOFade(0, 1);
             yield return new WaitForSeconds(1);
+            isPlayingDialogue = false;
             Destroy(currentNPCSpeaking.gameObject);
         }
 
-        public void FollowDialogueOption(BaseNode nextNode)
+        public IEnumerator FollowDialogueOption(BaseNode nextNode, DialogueNode dialoguePlayer)
         {
             panelOptionsDialogue.DOFade(0, 0.5f);
             panelOptionsDialogue.transform.DOScale(0, 0.5f);
+
+            yield return ShowText(dialoguePlayer);
+            
             StartCoroutine(PlayNode(nextNode));
         }
         
         private void CreateDecisionButtons(DialogueDecisionNode dialogueDecisionNode)
         {
-            MoveDialogues(DialogueNode.Speaker.PLAYER);
+            float cantOptions = 0;
             
-            panelOptionsDialogue.DOFade(1, 0.5f);
-            panelOptionsDialogue.transform.DOScale(1, 0.5f);
-            if (panelOptionsDialogue.transform.GetChild(0)
+            if (panelOptionsDialogue.transform.GetChild(0).GetChild(0)
                 .TryGetComponent(out OptionDialogueController optionDialogueController1))
             {
                 NodePort outputPort =
                     dialogueDecisionNode.GetOutputPort(nameof(dialogueDecisionNode.decision1Output));
-                var nextNode = outputPort?.Connection?.node as BaseNode;
-                    
-                optionDialogueController1.SetOption(nextNode, dialogueDecisionNode.decision1Text.value);
+                if (outputPort != null)
+                {
+                    var nextNode = outputPort?.Connection?.node as BaseNode;
+                    optionDialogueController1.SetOption(nextNode, dialogueDecisionNode.decision1Text.value);
+                    cantOptions++;
+                }
             }
             
-            if (panelOptionsDialogue.transform.GetChild(1)
+            if (panelOptionsDialogue.transform.GetChild(0).GetChild(1)
                 .TryGetComponent(out OptionDialogueController optionDialogueController2))
             {
                 NodePort outputPort =
                     dialogueDecisionNode.GetOutputPort(nameof(dialogueDecisionNode.decision2Output));
-                var nextNode = outputPort?.Connection?.node as BaseNode;
-                    
-                optionDialogueController2.SetOption(nextNode, dialogueDecisionNode.decision2Text.value);
+                if (outputPort != null)
+                {
+                    var nextNode = outputPort?.Connection?.node as BaseNode;
+                    optionDialogueController2.SetOption(nextNode, dialogueDecisionNode.decision2Text.value);
+                    cantOptions++;
+                }
             }
+            
+            if (panelOptionsDialogue.transform.GetChild(1).GetChild(0)
+                .TryGetComponent(out OptionDialogueController optionDialogueController3))
+            {
+                NodePort outputPort =
+                    dialogueDecisionNode.GetOutputPort(nameof(dialogueDecisionNode.decision3Output));
+                if (outputPort != null)
+                {
+                    var nextNode = outputPort?.Connection?.node as BaseNode;
+                    optionDialogueController3.SetOption(nextNode, dialogueDecisionNode.decision3Text.value);
+                    cantOptions++;
+                }
+            }
+            
+            if (panelOptionsDialogue.transform.GetChild(1).GetChild(1)
+                .TryGetComponent(out OptionDialogueController optionDialogueController4))
+            {
+                NodePort outputPort =
+                    dialogueDecisionNode.GetOutputPort(nameof(dialogueDecisionNode.decision4Output));
+                if (outputPort != null)
+                {
+                    var nextNode = outputPort.Connection?.node as BaseNode;
+                    optionDialogueController4.SetOption(nextNode, dialogueDecisionNode.decision4Text.value);
+                    cantOptions++;
+                }
+            }
+            
+            panelOptionsDialogue.DOFade(1, 0.5f);
+            panelOptionsDialogue.transform.DOScale(1, 0.5f);
+            
+            MoveDialogues(DialogueNode.Speaker.PLAYER, (float)Math.Ceiling(cantOptions/2));
         }
 
-        private void MoveDialogues(DialogueNode.Speaker speaker)
+        private void MoveDialogues(DialogueNode.Speaker speaker, float multiplier = 1)
         {
             var dialoguesCleaned =
                 dialoguesInstantiated.Where(it => it.dialogue.speaker == speaker).ToList();
 
             foreach (var dialogueCleaned in dialoguesCleaned)
-                dialogueCleaned.transform.DOLocalMoveY(dialogueCleaned.transform.localPosition.y + 20, 0.5f);
+                dialogueCleaned.transform.DOLocalMoveY(dialogueCleaned.transform.localPosition.y + (20 * multiplier), 0.5f);
             
             if (dialoguesCleaned.Count >= 2)
                 dialoguesCleaned[0].Disappear();

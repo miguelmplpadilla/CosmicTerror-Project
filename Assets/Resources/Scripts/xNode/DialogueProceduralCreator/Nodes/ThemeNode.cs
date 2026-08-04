@@ -8,11 +8,7 @@ public class ThemeNode : InputConectionNode
     [Space(20)]
     [Output] public DialogueNode introductionDialogues;
     [Space(20)]
-    [Output] public DialogueDecisionNode decisionsIntroductionDialogues;
-    [Space(20)]
     [Output] public DialogueNode developmentDialogues;
-    [Space(20)]
-    [Output] public DialogueDecisionNode decisionsDevelopmentDialogues;
     [Space(20)]
     [Output] public DialogueNode outcomeDialogues;
     

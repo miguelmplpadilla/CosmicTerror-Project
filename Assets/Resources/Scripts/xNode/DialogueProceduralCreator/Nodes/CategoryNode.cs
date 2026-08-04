@@ -5,7 +5,7 @@ public class CategoryNode : BaseNode
 {
 	public enum Category
 	{
-		ALUCINATIONS, PAIN, BRAWL, FEAR
+		GLOBAL, ALUCINATIONS, PAIN, BRAWL, FEAR
 	}
 	
 	public Category category;

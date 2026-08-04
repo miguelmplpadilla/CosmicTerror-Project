@@ -1,4 +1,3 @@
-using Resources.Scripts.NPCs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +27,10 @@ public class OptionDialogueController : MonoBehaviour
 
     private void SendOptionDialogue()
     {
-        DialogueController.instance.FollowDialogueOption(nextNode);
+        var dialoguePlayer = ScriptableObject.CreateInstance<DialogueNode>();
+        dialoguePlayer.dialogueText = new LocalizableString(optionText.text, optionText.text);
+        dialoguePlayer.speaker = DialogueNode.Speaker.PLAYER;
+
+        StartCoroutine(DialogueController.instance.FollowDialogueOption(nextNode, dialoguePlayer));
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using XNode;
@@ -9,7 +8,8 @@ public class DialogueProceduralManager : MonoBehaviour
 {
     public static DialogueProceduralManager instance;
     
-    public DialogueProceduralCreator dialogueProcedural;
+    public DialogueProceduralCreator globalDialoguesProcedural;
+    public DialogueProceduralCreator globalDialoguesNotKnowDocument;
 
     [Range(1, 10)]
     public int stressThresholdBase = 1;
@@ -19,9 +19,11 @@ public class DialogueProceduralManager : MonoBehaviour
         instance = this;
     }
 
-    public DialogueCreator CreateDialogue()
+    public DialogueCreator CreateDialogue(DialogueProceduralCreator dialogueProcedural = null)
     {
-        List<CategoryNode> categories = new List<CategoryNode>(dialogueProcedural.nodes
+        var currentDialogue = dialogueProcedural == null ? globalDialoguesProcedural :  dialogueProcedural;
+        
+        List<CategoryNode> categories = new List<CategoryNode>(currentDialogue.nodes
             .Where(it => it is CategoryNode && (it as CategoryNode).stressThreshold <= stressThresholdBase)
             .OfType<CategoryNode>());
 
@@ -50,10 +52,15 @@ public class DialogueProceduralManager : MonoBehaviour
         DialogueCreator dialogue = ScriptableObject.CreateInstance<DialogueCreator>();
 
         var startDialogue = dialogue.AddNode<StartDialogueNode>();
+
+        List<DialogueNode> introductionCopy = new List<DialogueNode>();
+        if (introduction != null && introduction.Count > 0) introductionCopy = ConnectDialogues(introduction, startDialogue, dialogue);
         
-        List<DialogueNode> introductionCopy = ConnectDialogues(introduction, startDialogue, dialogue);
-        List<DialogueNode> developmentCopy = ConnectDialogues(development, introductionCopy[introductionCopy.Count-1], dialogue);
-        List<DialogueNode> outcomeCopy = ConnectDialogues(outcome, developmentCopy[developmentCopy.Count-1], dialogue);
+        List<DialogueNode> developmentCopy = new List<DialogueNode>();
+        if (development != null && development.Count > 0) developmentCopy = ConnectDialogues(development, introductionCopy[introductionCopy.Count-1], dialogue);
+        
+        List<DialogueNode> outcomeCopy = new List<DialogueNode>();
+        if (outcome != null && outcome.Count > 0) outcomeCopy = ConnectDialogues(outcome, developmentCopy[developmentCopy.Count-1], dialogue);
 
         return dialogue;
     }
@@ -109,7 +116,7 @@ public class DialogueProceduralManager : MonoBehaviour
 
             bool followPhrase = Random.Range(0, 2) == 0;
 
-            if (!followPhrase) break;
+            if (!followPhrase && nodes.Where(it => it.speaker == DialogueNode.Speaker.NPC).ToList().Count >= 1) break;
             
             var randomNodeOutput = randomNode as ConectionsNode;
             randomNode = GetRandomDialogue(randomNode, nameof(randomNodeOutput.baseOutput));

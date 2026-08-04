@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NPCBase : MonoBehaviour
 {
@@ -7,11 +9,8 @@ public class NPCBase : MonoBehaviour
 
     public string npcName;
     public LocalizableString motiveText;
-
-    protected virtual void Awake()
-    {
-        canvasGroup.alpha = 0;
-    }
+    
+    public KnownDocument[] knownDocuments;
 
     protected virtual void Start()
     {
@@ -21,4 +20,16 @@ public class NPCBase : MonoBehaviour
         GameManager.instance.currentName = npcName;
         GameManager.instance.currentMotv = motiveText.value; //TODO: Modificar motivos mediante DialogueNode
     }
+
+    public void AskObject(DocumentData documentData)
+    {
+        DialogueController.instance.StartDialogue(documentData.GetDialogue(this), this, 0);
+    }
+}
+
+[Serializable]
+public class KnownDocument
+{
+    public GameObject document;
+    public DialogueCreator dialogueDocument;
 }

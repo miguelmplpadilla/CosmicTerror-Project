@@ -24,6 +24,27 @@ public class LocalizableString
                     return valueEnglish;
             }
         }
+
+        set
+        {
+            var locale = LocalizationSettings.SelectedLocale;
+            string language = PlayerPrefs.GetString("language", locale?.Identifier.Code ?? "es");
+            
+            language = language.Split('-')[0];
+
+            switch (language)
+            {
+                case "es":
+                    valueSpanish = value;
+                    break;
+                case "en":
+                    valueEnglish = value;
+                    break;
+                default:
+                    valueEnglish = value;
+                    break;
+            }
+        }
     }
 
     public LocalizableString(string valueSpanish, string valueEnglish)

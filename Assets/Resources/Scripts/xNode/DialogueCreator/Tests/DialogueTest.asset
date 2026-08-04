@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8689267129606769352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc438677c586d224c8839d63ee0814ec, type: 3}
-  m_Name: Exit Npc
-  m_EditorClassIdentifier: Assembly-CSharp::ExitNpc
-  graph: {fileID: 11400000}
-  position: {x: 2504, y: -24}
-  ports:
-    keys:
-    - baseInput
-    values:
-    - _fieldName: baseInput
-      _node: {fileID: -8689267129606769352}
-      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: baseOutput
-        node: {fileID: -2374321663297601734}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  baseInput: {fileID: 0}
 --- !u!114 &-5842249075023031429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,12 +13,14 @@ MonoBehaviour:
   m_Name: Dialogue Decision
   m_EditorClassIdentifier: Assembly-CSharp::DialogueDecisionNode
   graph: {fileID: 11400000}
-  position: {x: 504, y: -40}
+  position: {x: 456, y: 40}
   ports:
     keys:
     - decision1Output
     - decision2Output
     - baseInput
+    - decision3Output
+    - decision4Output
     values:
     - _fieldName: decision1Output
       _node: {fileID: -5842249075023031429}
@@ -57,7 +28,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: baseInput
-        node: {fileID: -2667497764918431290}
+        node: {fileID: -4276774290832938977}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -69,7 +40,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: baseInput
-        node: {fileID: 2387572408616597129}
+        node: {fileID: 7477743427282535947}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -87,6 +58,30 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+    - _fieldName: decision3Output
+      _node: {fileID: -5842249075023031429}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: -4276774290832938977}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: decision4Output
+      _node: {fileID: -5842249075023031429}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: -574976978027262296}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
   baseInput: {fileID: 0}
   decision1Output: {fileID: 0}
   decision1Text:
@@ -95,6 +90,14 @@ MonoBehaviour:
   decision2Output: {fileID: 0}
   decision2Text:
     valueSpanish: Cuanto le duele?
+    valueEnglish: 
+  decision3Output: {fileID: 0}
+  decision3Text:
+    valueSpanish: Tiene que doler mucho no?
+    valueEnglish: 
+  decision4Output: {fileID: 0}
+  decision4Text:
+    valueSpanish: Yo no te veo tan mal
     valueEnglish: 
 --- !u!114 &-4816797140189757668
 MonoBehaviour:
@@ -152,10 +155,13 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: baseOutput
-        node: {fileID: -2667497764918431290}
-        reroutePoints: []
-      - fieldName: baseOutput
         node: {fileID: 7477743427282535947}
+        reroutePoints: []
+      - fieldName: decision1Output
+        node: {fileID: -5842249075023031429}
+        reroutePoints: []
+      - fieldName: decision3Output
+        node: {fileID: -5842249075023031429}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -178,55 +184,6 @@ MonoBehaviour:
   speaker: 1
   dialogueText:
     valueSpanish: Escucho un zumbido cada vez mas fuerte
-    valueEnglish: 
---- !u!114 &-2667497764918431290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
-  m_Name: Dialogue
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  graph: {fileID: 11400000}
-  position: {x: 1112, y: -216}
-  ports:
-    keys:
-    - baseInput
-    - baseOutput
-    values:
-    - _fieldName: baseInput
-      _node: {fileID: -2667497764918431290}
-      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: decision1Output
-        node: {fileID: -5842249075023031429}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: baseOutput
-      _node: {fileID: -2667497764918431290}
-      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: baseInput
-        node: {fileID: -4276774290832938977}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  baseOutput: {fileID: 0}
-  baseInput: {fileID: 0}
-  speaker: 0
-  dialogueText:
-    valueSpanish: Como le duele?
     valueEnglish: 
 --- !u!114 &-2374321663297601734
 MonoBehaviour:
@@ -263,10 +220,7 @@ MonoBehaviour:
       _node: {fileID: -2374321663297601734}
       _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections:
-      - fieldName: baseInput
-        node: {fileID: -8689267129606769352}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -276,6 +230,55 @@ MonoBehaviour:
   speaker: 1
   dialogueText:
     valueSpanish: Despues un dolor intenso
+    valueEnglish: 
+--- !u!114 &-574976978027262296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  graph: {fileID: 11400000}
+  position: {x: 1016, y: 392}
+  ports:
+    keys:
+    - baseInput
+    - baseOutput
+    values:
+    - _fieldName: baseInput
+      _node: {fileID: -574976978027262296}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: decision4Output
+        node: {fileID: -5842249075023031429}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseOutput
+      _node: {fileID: -574976978027262296}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: 7477743427282535947}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  speaker: 1
+  dialogueText:
+    valueSpanish: Le han dicho alguna vez que es usted estupida?
     valueEnglish: 
 --- !u!114 &11400000
 MonoBehaviour:
@@ -297,59 +300,8 @@ MonoBehaviour:
   - {fileID: -2374321663297601734}
   - {fileID: -5842249075023031429}
   - {fileID: 7477743427282535947}
-  - {fileID: -2667497764918431290}
-  - {fileID: 2387572408616597129}
   - {fileID: 5632502690370077789}
-  - {fileID: -8689267129606769352}
---- !u!114 &2387572408616597129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f669b4cddc284a1c99791a28d462d934, type: 3}
-  m_Name: Dialogue
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  graph: {fileID: 11400000}
-  position: {x: 840, y: 168}
-  ports:
-    keys:
-    - baseInput
-    - baseOutput
-    values:
-    - _fieldName: baseInput
-      _node: {fileID: 2387572408616597129}
-      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: decision2Output
-        node: {fileID: -5842249075023031429}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: baseOutput
-      _node: {fileID: 2387572408616597129}
-      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: baseInput
-        node: {fileID: 7477743427282535947}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  baseOutput: {fileID: 0}
-  baseInput: {fileID: 0}
-  speaker: 0
-  dialogueText:
-    valueSpanish: Cuanto le duele?
-    valueEnglish: 
+  - {fileID: -574976978027262296}
 --- !u!114 &5537575369924736411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +410,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   graph: {fileID: 11400000}
-  position: {x: 1224, y: 184}
+  position: {x: 1512, y: 216}
   ports:
     keys:
     - baseInput
@@ -470,7 +422,10 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: baseOutput
-        node: {fileID: 2387572408616597129}
+        node: {fileID: -574976978027262296}
+        reroutePoints: []
+      - fieldName: decision2Output
+        node: {fileID: -5842249075023031429}
         reroutePoints: []
       _direction: 0
       _connectionType: 0

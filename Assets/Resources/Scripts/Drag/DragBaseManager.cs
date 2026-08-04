@@ -7,8 +7,6 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 {
     protected RectTransform rt;
 
-    public DialogueCreator dialogue;
-
     protected bool canDrag = true;
     protected bool isDraging = true;
 
@@ -83,6 +81,22 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         }
     }
 
+    private RaycastHit2D[] GetContactObject()
+    {
+        return Physics2D.RaycastAll(transform.position, Vector2.zero, Mathf.Infinity);
+    }
+
+    protected NPCBase GetNPCContact()
+    {
+        foreach (var obj in GetContactObject())
+        {
+            if (obj.collider.TryGetComponent(out NPCBase npc))
+                return npc;
+        }
+
+        return null;
+    }
+
     protected void SetSize(bool size)
     {
         transform.localScale = size ? scaleBig : scaleSmall;
@@ -96,7 +110,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     protected bool GetContainerType()
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.zero, Mathf.Infinity);
+        RaycastHit2D[] hits = GetContactObject();
 
         foreach (var hit in hits)
         {
