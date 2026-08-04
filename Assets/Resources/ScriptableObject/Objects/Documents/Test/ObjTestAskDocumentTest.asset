@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265b6163ad104dc3a82858e4e2dd5667, type: 3}
   m_Name: ObjTestAskDocumentTest
   m_EditorClassIdentifier: Assembly-CSharp::DocumentData
-  allPeopleKnowDocument: 0
+  allPeopleKnowDocument: 1
   proceduralDialoguesKnow: {fileID: 11400000, guid: 6157164c97a0b5d4fae8fd0a3297f895, type: 2}
   obj: {fileID: 0}

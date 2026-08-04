@@ -6417,13 +6417,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3274569467525633602, guid: 9e364820418c014428db7413b7f75a88, type: 3}
+      propertyPath: startDialogue
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274569467525633602, guid: 9e364820418c014428db7413b7f75a88, type: 3}
       propertyPath: knownDocuments.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3274569467525633602, guid: 9e364820418c014428db7413b7f75a88, type: 3}
       propertyPath: knownDocuments.Array.data[0].document
       value: 
       objectReference: {fileID: 4820744066506942416, guid: 7f0e1c35185ab754eacbc9dfd8cb590c, type: 3}
+    - target: {fileID: 3274569467525633602, guid: 9e364820418c014428db7413b7f75a88, type: 3}
+      propertyPath: knownDocuments.Array.data[0].dialogueDocument
+      value: 
+      objectReference: {fileID: 11400000, guid: 908f72975990e8f4385699c14a2443ac, type: 2}
     - target: {fileID: 8364308987136661652, guid: 9e364820418c014428db7413b7f75a88, type: 3}
       propertyPath: m_Name
       value: NPCCreatedTest

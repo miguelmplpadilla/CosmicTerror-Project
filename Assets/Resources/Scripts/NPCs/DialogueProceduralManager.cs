@@ -45,9 +45,6 @@ public class DialogueProceduralManager : MonoBehaviour
         List<DialogueNode> introduction = GetRandomDialogues(themesNode, nameof(themesNode.introductionDialogues));
         List<DialogueNode> development = GetRandomDialogues(themesNode, nameof(themesNode.developmentDialogues));
         List<DialogueNode> outcome = GetRandomDialogues(themesNode, nameof(themesNode.outcomeDialogues));
-
-        if (introduction == null || development == null || outcome == null || 
-            introduction.Count == 0 || development.Count == 0 || outcome.Count == 0) return null;
         
         DialogueCreator dialogue = ScriptableObject.CreateInstance<DialogueCreator>();
 
