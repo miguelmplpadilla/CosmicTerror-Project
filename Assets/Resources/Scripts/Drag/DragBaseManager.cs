@@ -1,11 +1,15 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(Canvas))]
+[RequireComponent(typeof(GraphicRaycaster))]
 public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     protected RectTransform rt;
+    protected Canvas canvas;
 
     protected bool canDrag = true;
     protected bool isDraging = true;
@@ -25,6 +29,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     protected virtual void Awake()
     {
         rt = GetComponent<RectTransform>();
+        canvas = GetComponent<Canvas>();
     }
 
     protected virtual void Start()
@@ -39,6 +44,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         transform.SetAsLastSibling();
         canDrag = true;
         isDraging = true;
+        canvas.sortingOrder = 4;
         ShowShadow(true);
         BeginDrag(eventData);
     }
@@ -64,6 +70,8 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     {
         if (!canDrag) return;
         isDraging = false;
+        
+        canvas.sortingOrder = 0;
         
         ShowShadow(false);
         EndDrag(eventData);
