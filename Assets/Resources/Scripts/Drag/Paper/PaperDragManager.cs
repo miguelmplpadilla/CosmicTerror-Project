@@ -23,6 +23,9 @@ namespace Resources.Scripts
         public float distancePaperContainer = 0;
         public float distanceFileDesk = 0;
 
+        public string nameText;
+        public string motvText;
+
         public Image[] imagesBackground;
 
         private GameObject _fileDesk;
@@ -95,7 +98,10 @@ namespace Resources.Scripts
 
         private void LateUpdate()
         {
-            textDefault.text = GameManager.instance.currentName + "\n" + GameManager.instance.currentMotv;
+            nameText = GameManager.instance.currentName;
+            motvText = GameManager.instance.currentMotv;
+            
+            textDefault.text = nameText + "\n" + motvText;
         }
 
         public override void OnBeginDrag(PointerEventData eventData)

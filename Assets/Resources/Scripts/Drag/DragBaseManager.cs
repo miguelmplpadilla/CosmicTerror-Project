@@ -71,7 +71,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (!canDrag) return;
         isDraging = false;
         
-        canvas.sortingOrder = 0;
+        canvas.sortingOrder = 1;
         
         ShowShadow(false);
         EndDrag(eventData);

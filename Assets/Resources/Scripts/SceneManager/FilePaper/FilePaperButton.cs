@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using DG.Tweening;
+using Resources.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +13,12 @@ public class FilePaperButton : MonoBehaviour
 
     public RectTransform panelFileLetter;
 
-    public GameObject paperFileFake;
+    public GameObject prefabDocumentFile;
+    public GameObject prefabPhotoFile;
+
+    public GameObject container;
+    
+    public List<GameObject> documentFiles = new List<GameObject>();
     
     public GameObject parent;
 
@@ -84,5 +91,23 @@ public class FilePaperButton : MonoBehaviour
     {
         var filePaperButtonOpened = FilePaperManager.instance.GetFilePaperOpened();
         return filePaperButtonOpened == null || filePaperButtonOpened == this;
+    }
+
+    public GameObject InstancePaper(PaperDragManager paperDragManager)
+    {
+        var documentInstance = Instantiate(prefabDocumentFile, container.transform);
+        documentFiles.Add(documentInstance);
+
+        var documentFile = documentInstance.GetComponent<PaperFile>();
+        documentFile.objDocument = paperDragManager;
+        
+        documentFile.SetData(paperDragManager);
+
+        return documentInstance;
+    }
+    
+    public GameObject InstancePhoto(PaperDragManager paperDragManager)
+    {
+        return null;
     }
 }

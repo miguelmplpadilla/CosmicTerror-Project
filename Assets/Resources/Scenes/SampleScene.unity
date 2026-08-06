@@ -385,6 +385,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 677813665}
     m_Modifications:
+    - target: {fileID: 616287670261209612, guid: 9d9736a3294653843b63c24f8415ccb6, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2981523743675784525, guid: 9d9736a3294653843b63c24f8415ccb6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -482,6 +486,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 677813665}
     m_Modifications:
+    - target: {fileID: 616287670261209612, guid: 88104f6e3e5555845b89e0182fcb3220, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2981523743675784525, guid: 88104f6e3e5555845b89e0182fcb3220, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1024,6 +1032,7 @@ MonoBehaviour:
   alphabet: "a,b,c,d,e,f,g,h,i,j,k,l,m,n,\xF1,o,p,q,r,s,t,u,v,w,x,y,z"
   prefabButtonFile: {fileID: 4403671580623232380, guid: 140ead8627af5b843aa553938c3da611, type: 3}
   container: {fileID: 307982506}
+  filePaperButtons: []
 --- !u!1 &308058506
 GameObject:
   m_ObjectHideFlags: 0
@@ -2451,6 +2460,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 677813665}
     m_Modifications:
+    - target: {fileID: 616287670261209612, guid: 4d110687be82ab04db55a92055316093, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2981523743675784525, guid: 4d110687be82ab04db55a92055316093, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
