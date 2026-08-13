@@ -9,7 +9,7 @@ public class DocumentData : ScriptableObject
     
     public DialogueProceduralCreator proceduralDialoguesKnow;
 
-    public GameObject obj;
+    public DocumentBaseController documentBaseController;
 
     public DialogueCreator GetDialogue(NPCBase npc)
     {
@@ -18,7 +18,7 @@ public class DocumentData : ScriptableObject
             : DialogueProceduralManager.instance.CreateDialogue(DialogueProceduralManager.instance.globalDialoguesNotKnowDocument);
 
         foreach (var documentKnow in npc.knownDocuments)
-            if (documentKnow.document.name.Trim().Replace("(Clone)", "").Equals(obj.name))
+            if (documentKnow.document.name.Trim().Replace("(Clone)", "").Equals(documentBaseController.gameObject.name))
                 return documentKnow.dialogueDocument;
 
         return currentDialogue;

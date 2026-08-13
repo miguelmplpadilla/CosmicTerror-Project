@@ -7,10 +7,9 @@ using UnityEngine.UI;
 
 namespace Resources.Scripts
 {
-    public class PaperDragManager : DragBaseManager
+    public class PaperDragManager : DocumentBaseController
     {
         public bool isOnPaperContainer = false;
-        public bool isOnFileDesk = false;
         
         private bool _lockedOnPaper = false;
 
@@ -18,17 +17,14 @@ namespace Resources.Scripts
         public Vector3 corkScale = Vector3.one;
 
         public float distanceMaxPaperContainer = 250;
-        public float distanceMaxFileDesk = 300;
 
         public float distancePaperContainer = 0;
-        public float distanceFileDesk = 0;
 
         public string nameText;
         public string motvText;
 
         public Image[] imagesBackground;
 
-        private GameObject _fileDesk;
         public PushpinController pushpin;
 
         public GameObject stampsParent;
@@ -50,8 +46,6 @@ namespace Resources.Scripts
         protected override void Start()
         {
             base.Start();
-            
-            _fileDesk = GameObject.Find("FilePaper");
             
             EventBus<CheckInsideCorkboard>.Register(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
         }
@@ -90,10 +84,6 @@ namespace Resources.Scripts
                                          canWrite && !paperSeparated && !isOnPaperContainer;
             
             buttonSeparatePapers.transform.localScale = canShowButtonSeparate ? Vector3.one : Vector3.zero;
-            
-            distanceFileDesk = Mathf.Abs(transform.position.x - _fileDesk.transform.position.x);
-
-            isOnFileDesk = !_lockedOnPaper && distanceFileDesk < distanceMaxFileDesk;
         }
 
         private void LateUpdate()
@@ -133,15 +123,6 @@ namespace Resources.Scripts
 
         protected override void Drag(PointerEventData eventData)
         {
-            Vector3 finalRotation = Vector3.zero;
-
-            if (isOnFileDesk && !isOnPaperContainer)
-            {
-                finalRotation = new Vector3(0, 0, 90);
-            }
-
-            transform.DORotate(finalRotation, 0.3f);
-            
             pushpin.gameObject.SetActive(false);
             
             GameObject currentContainer = GetContainer();
@@ -177,12 +158,6 @@ namespace Resources.Scripts
 
         protected override void EndDrag(PointerEventData eventData)
         {
-            Vector3 finalRotation = Vector3.zero;
-
-            if (isOnFileDesk) finalRotation = new Vector3(0, 0, 90);
-
-            transform.DOKill();
-            transform.DORotate(finalRotation, 0.3f);
             
             if (isOnPaperContainer && IsTheSameInputPaper())
             {
@@ -199,19 +174,6 @@ namespace Resources.Scripts
             if (currentContainer != null && currentContainer.name.Equals("Cork"))
             {
                 transform.SetParent(currentContainer.transform);
-                return;
-            }
-
-            if (isOnFileDesk)
-            {
-                pushpin.RemoveAllLines();
-                transform.SetParent(_fileDesk.transform.GetChild(0));
-                isAnimating = true;
-                
-                rt.DOAnchorPosX(0, 0.3f).OnComplete(() =>
-                {
-                    isAnimating = false;
-                }).OnUpdate(() => SetSize(GetContainerType()));
                 return;
             }
             

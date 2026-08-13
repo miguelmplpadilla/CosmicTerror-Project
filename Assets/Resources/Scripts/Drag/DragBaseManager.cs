@@ -23,6 +23,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public GameObject objBig;
     public GameObject objSmall;
+    public GameObject currentObjectSize;
 
     protected GameObject deskContainer;
 
@@ -58,6 +59,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     {
         if (!canDrag) return;
         SetSize(GetContainerType());
+        GameManager.instance.currentDraggingObject = this;
         Drag(eventData);
     }
 
@@ -75,6 +77,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         
         ShowShadow(false);
         EndDrag(eventData);
+        GameManager.instance.currentDraggingObject = null;
     }
 
     protected virtual void EndDrag(PointerEventData eventData)
@@ -94,12 +97,12 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         return Physics2D.RaycastAll(transform.position, Vector2.zero, Mathf.Infinity);
     }
 
-    protected NPCBase GetNPCContact()
+    protected InterBaseController GetInterContact()
     {
         foreach (var obj in GetContactObject())
         {
-            if (obj.collider.TryGetComponent(out NPCBase npc))
-                return npc;
+            if (obj.collider.TryGetComponent(out InterBaseController interObj))
+                return interObj;
         }
 
         return null;
@@ -112,8 +115,8 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         objBig.SetActive(false);
         objSmall.SetActive(false);
         
-        if (size) objBig.SetActive(true);
-        else objSmall.SetActive(true);
+        currentObjectSize = size ? objBig : objSmall;
+        currentObjectSize.SetActive(true);
     }
 
     protected bool GetContainerType()

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class NPCBase : MonoBehaviour
+public class NPCBase : InterBaseController
 {
     public Animator animator;
     public CanvasGroup canvasGroup;
@@ -21,7 +21,7 @@ public class NPCBase : MonoBehaviour
         GameManager.instance.currentMotv = motiveText.value; //TODO: Modificar motivos mediante DialogueNode
     }
 
-    public void AskObject(DocumentData documentData)
+    public override void Inter(DocumentData documentData)
     {
         DialogueController.instance.StartDialogue(documentData.GetDialogue(this), this, 0);
     }

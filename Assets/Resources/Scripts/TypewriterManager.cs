@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -58,15 +59,20 @@ namespace Resources.Scripts
                                 .Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) !=
                                             System.Globalization.UnicodeCategory.NonSpacingMark)
                                 .ToArray());
-                            if (!newInput.ToLower().Equals(GameManager.instance
-                                    .currentDefault[GameManager.instance.currentDefaultIndex]
-                                    .ToString().ToLower())) return;
-                            else
-                            {
-                                input = GameManager.instance.currentDefault[GameManager.instance.currentDefaultIndex]
-                                    .ToString();
-                                GameManager.instance.currentDefaultIndex++;
-                            }
+
+                            newInput = RemoveAccents(newInput);
+
+                            var defaultText = RemoveAccents(GameManager.instance
+                                .currentDefault[GameManager.instance.currentDefaultIndex]
+                                .ToString().ToLower());
+
+                            Debug.Log("Final default text: "+defaultText);
+                            
+                            if (!newInput.ToLower().Equals(defaultText)) return;
+                           
+                            input = GameManager.instance.currentDefault[GameManager.instance.currentDefaultIndex]
+                                .ToString();
+                            GameManager.instance.currentDefaultIndex++;
                         }
                         
                         finalInput = paperDragManager.inputTextPaper.text + input;
@@ -99,6 +105,27 @@ namespace Resources.Scripts
                     GameManager.instance.currentDefault = GameManager.instance.currentMotv;
                 }
             }
+        }
+        
+        public static string RemoveAccents(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            // Normaliza el texto a NFD (descompone acentos)
+            string normalizedText = text.Normalize(NormalizationForm.FormD);
+
+            // Filtra los caracteres que no son letras o dígitos (como los acentos)
+            StringBuilder finalText = new StringBuilder();
+            foreach (char c in normalizedText)
+            {
+                if (char.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    finalText.Append(c);
+                }
+            }
+
+            return finalText.ToString();
         }
 
         private string ReleaseKey()

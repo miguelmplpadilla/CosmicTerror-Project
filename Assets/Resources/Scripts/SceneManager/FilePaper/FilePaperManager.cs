@@ -20,10 +20,18 @@ public class FilePaperManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (var letter in alphabet.Split(","))
+        List<string> alphabetSplit = new List<string>(alphabet.Split(","));
+        
+        for (int i = 0; i < alphabetSplit.Count; i++)
         {
             var filePaperButton = Instantiate(prefabButtonFile, container.transform).GetComponent<FilePaperButton>();
-            filePaperButton.textLetter.text = letter.ToUpper();
+            filePaperButton.textLetter.text = alphabetSplit[i].ToUpper();
+            
+            float pivotY = alphabetSplit.Count <= 1
+                ? 1f
+                : 1f - ((float)i / (alphabetSplit.Count - 1));
+
+            filePaperButton.fileButtonRt.pivot = new Vector2(1, pivotY);
             
             filePaperButtons.Add(filePaperButton);
         }

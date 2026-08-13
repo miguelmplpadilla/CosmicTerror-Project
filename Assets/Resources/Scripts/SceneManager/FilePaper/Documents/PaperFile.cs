@@ -8,6 +8,8 @@ public class PaperFile : FileDragController
     
     public override void SetData(DragBaseManager dragBaseManager)
     {
+        base.SetData(dragBaseManager);
+        
         var document = dragBaseManager as PaperDragManager;
 
         nameText = document.nameText;

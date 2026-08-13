@@ -1,24 +1,16 @@
-﻿using System.Collections.Generic;
-using DG.Tweening;
-using Resources.Scripts;
+﻿using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class FilePaperButton : MonoBehaviour
 {
     public EventTrigger trigger;
     public TextMeshProUGUI textLetter;
 
+    public RectTransform fileButtonRt;
     public RectTransform panelFileLetter;
-
-    public GameObject prefabDocumentFile;
-    public GameObject prefabPhotoFile;
-
-    public GameObject container;
-    
-    public List<GameObject> documentFiles = new List<GameObject>();
+    public RectTransform panelFilePaperContainer;
     
     public GameObject parent;
 
@@ -84,6 +76,7 @@ public class FilePaperButton : MonoBehaviour
         canvas.sortingOrder = panelOpened ? 3 : 1;
         
         panelFileLetter.DOKill();
+        panelFileLetter.DOAnchorPosY(panelOpened ? panelFilePaperContainer.sizeDelta.y + 13 : 0, 0.3f);
         panelFileLetter.DOAnchorPosX(panelOpened ? -80 : 0, 0.3f);
     }
     
@@ -91,23 +84,5 @@ public class FilePaperButton : MonoBehaviour
     {
         var filePaperButtonOpened = FilePaperManager.instance.GetFilePaperOpened();
         return filePaperButtonOpened == null || filePaperButtonOpened == this;
-    }
-
-    public GameObject InstancePaper(PaperDragManager paperDragManager)
-    {
-        var documentInstance = Instantiate(prefabDocumentFile, container.transform);
-        documentFiles.Add(documentInstance);
-
-        var documentFile = documentInstance.GetComponent<PaperFile>();
-        documentFile.objDocument = paperDragManager;
-        
-        documentFile.SetData(paperDragManager);
-
-        return documentInstance;
-    }
-    
-    public GameObject InstancePhoto(PaperDragManager paperDragManager)
-    {
-        return null;
     }
 }

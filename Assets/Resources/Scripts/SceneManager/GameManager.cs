@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public GameObject panelGlobalObjects;
     public RectTransform mouse;
 
+    public DragBaseManager currentDraggingObject;
+
     public string currentName = "Miguel";
     public string currentMotv = "Dolor de barriga";
 

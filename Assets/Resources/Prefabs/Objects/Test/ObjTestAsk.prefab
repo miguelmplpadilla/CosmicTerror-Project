@@ -416,7 +416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7651896806922749723}
   - component: {fileID: 5605713419460676009}
-  - component: {fileID: 8807344255383376876}
+  - component: {fileID: 1212375939038853559}
   - component: {fileID: 5340267069673762096}
   - component: {fileID: 9161996102273497113}
   - component: {fileID: 5989869777446665442}
@@ -456,7 +456,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4820744066506942416}
   m_CullTransparentMesh: 1
---- !u!114 &8807344255383376876
+--- !u!114 &1212375939038853559
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -465,15 +465,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4820744066506942416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f379641abe96b3478ea21a11c9490d9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b1e91d37fde4d7194261ae8cfcc2f81, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DocumentBaseController
+  m_EditorClassIdentifier: Assembly-CSharp::PhotoController
   scaleBig: {x: 1, y: 1, z: 1}
   scaleSmall: {x: 0.35, y: 0.35, z: 0.35}
   positionShadow: {x: 20, y: -20, z: 0}
   objBig: {fileID: 2906388479233674617}
   objSmall: {fileID: 2428985650370112679}
   documentData: {fileID: 11400000, guid: 7f548fc503215b8499a3b6c13b73e13c, type: 2}
+  imagePhoto: {fileID: 3020634509535640830, guid: 08582c8b4d91f3f48a7eed24b0244844, type: 3}
+  titlePhoto:
+    valueSpanish: Foto test
+    valueEnglish: Photo test
 --- !u!114 &5340267069673762096
 MonoBehaviour:
   m_ObjectHideFlags: 0

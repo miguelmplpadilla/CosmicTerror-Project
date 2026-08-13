@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Resources.Scripts
 {
@@ -6,8 +7,9 @@ namespace Resources.Scripts
     {
         public static MouseController instance;
     
+        public RectTransform iconsRt;
         public GameObject askIcon;
-
+        
         private void Awake()
         {
             instance = this;
@@ -16,6 +18,17 @@ namespace Resources.Scripts
         private void Update()
         {
             transform.position = Input.mousePosition;
+        }
+
+        private void LateUpdate()
+        {
+            if (GameManager.instance.currentDraggingObject != null)
+            {
+                var rtDraggingObject = GameManager.instance.currentDraggingObject.currentObjectSize
+                    .GetComponent<RectTransform>();
+                iconsRt.sizeDelta = rtDraggingObject.sizeDelta *
+                                    GameManager.instance.currentDraggingObject.transform.localScale;
+            }
         }
 
         public void ShowAskIcon(bool show)
