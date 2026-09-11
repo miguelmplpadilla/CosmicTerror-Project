@@ -15,7 +15,6 @@ public class InterBaseController : MonoBehaviour
 
     public virtual void ShowIcon(bool show)
     {
-        Debug.Log("ShowIcon");
         MouseController.instance.ShowAskIcon(show);
     }
 }

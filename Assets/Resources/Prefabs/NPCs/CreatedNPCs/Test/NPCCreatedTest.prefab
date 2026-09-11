@@ -97,9 +97,12 @@ MonoBehaviour:
   canvasGroup: {fileID: 1853812786858754654}
   npcName: 
   motiveText:
-    valueSpanish: 
+    valueSpanish: Dolor de cabeza agudo
     valueEnglish: 
-  dialogue: {fileID: 0}
+  knownDocuments:
+  - document: {fileID: 4820744066506942416, guid: 7f0e1c35185ab754eacbc9dfd8cb590c, type: 3}
+    dialogueDocument: {fileID: 11400000, guid: 908f72975990e8f4385699c14a2443ac, type: 2}
+  startDialogue: {fileID: 11400000, guid: 14fbae56898ee374ca9eb2bbee5212ae, type: 2}
 --- !u!61 &6608732528552951577
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -134,7 +137,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -7.2130203, y: 21.926445}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -144,7 +147,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 200, y: 222}
+  m_Size: {x: 235.4095, y: 219.1414}
   m_EdgeRadius: 0
 --- !u!50 &8861714936553356627
 Rigidbody2D:
@@ -429,8 +432,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 222}
+  m_AnchoredPosition: {x: -0.00081706047, y: 23.464409}
+  m_SizeDelta: {x: 260.9836, y: 219.6649}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2462472956310803713
 CanvasRenderer:
@@ -460,7 +463,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7741955812057757506, guid: 2e8b4939f26f4e04dac5668c731cfd10, type: 3}
+  m_Sprite: {fileID: 5851328267810998282, guid: ac97d0bbfe50b1e4abddc2a7f91f8eb0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

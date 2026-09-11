@@ -21,6 +21,6 @@ public class DocumentData : ScriptableObject
             if (documentKnow.document.name.Trim().Replace("(Clone)", "").Equals(documentBaseController.gameObject.name))
                 return documentKnow.dialogueDocument;
 
-        return currentDialogue;
+        return currentDialogue.dialogueCreator;
     }
 }

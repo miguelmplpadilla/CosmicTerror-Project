@@ -19,12 +19,8 @@ public class DocumentBaseController : DragBaseManager
     protected override void Drag(PointerEventData eventData)
     {
         base.Drag(eventData);
-
-        if (DialogueController.instance.isPlayingDialogue) return;
         
         interContact = GetInterContact();
-
-        Debug.Log("Inter Contact: "+interContact);
 
         if (interContact != null && !interContact.CanInteractWith(this)) interContact = null;
         
@@ -37,8 +33,6 @@ public class DocumentBaseController : DragBaseManager
     protected override void EndDrag(PointerEventData eventData)
     {
         base.EndDrag(eventData);
-        
-        if (DialogueController.instance.isPlayingDialogue) return;
         
         if (interContact != null)
         {

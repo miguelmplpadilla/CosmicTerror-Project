@@ -65,15 +65,13 @@ MonoBehaviour:
   m_Name: Theme
   m_EditorClassIdentifier: Assembly-CSharp::ThemeNode
   graph: {fileID: 11400000}
-  position: {x: -2344, y: -648}
+  position: {x: -2696, y: -728}
   ports:
     keys:
     - introductionDialogues
     - developmentDialogues
     - outcomeDialogues
     - baseInput
-    - decisionsIntroductionDialogues
-    - decisionsDevelopmentDialogues
     values:
     - _fieldName: introductionDialogues
       _node: {fileID: -7361798384427155398}
@@ -141,31 +139,18 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-    - _fieldName: decisionsIntroductionDialogues
-      _node: {fileID: -7361798384427155398}
-      _typeQualifiedName: DialogueDecisionNode, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: decisionsDevelopmentDialogues
-      _node: {fileID: -7361798384427155398}
-      _typeQualifiedName: DialogueDecisionNode, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
   baseInput: {fileID: 0}
   themeKey: head
   introductionDialogues: {fileID: 0}
-  decisionsIntroductionDialogues: {fileID: 0}
   developmentDialogues: {fileID: 0}
-  decisionsDevelopmentDialogues: {fileID: 0}
   outcomeDialogues: {fileID: 0}
+  motivesList:
+  - valueSpanish: Dolor de cabeza agudo
+    valueEnglish: 
+  - valueSpanish: Cefalea
+    valueEnglish: 
+  - valueSpanish: Mucho dolor de cabeza
+    valueEnglish: 
 --- !u!114 &-6905302624124957621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +210,7 @@ MonoBehaviour:
   m_Name: Category
   m_EditorClassIdentifier: Assembly-CSharp::CategoryNode
   graph: {fileID: 11400000}
-  position: {x: -2728, y: -632}
+  position: {x: -3080, y: -712}
   ports:
     keys:
     - themes
@@ -242,7 +227,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  category: 1
+  category: 2
   stressThreshold: 1
   themes: {fileID: 0}
 --- !u!114 &11400000

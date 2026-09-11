@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using XNode;
@@ -19,7 +20,7 @@ public class DialogueProceduralManager : MonoBehaviour
         instance = this;
     }
 
-    public DialogueCreator CreateDialogue(DialogueProceduralCreator dialogueProcedural = null)
+    public DialogueProcedural CreateDialogue(DialogueProceduralCreator dialogueProcedural = null)
     {
         var currentDialogue = dialogueProcedural == null ? globalDialoguesProcedural :  dialogueProcedural;
         
@@ -59,7 +60,11 @@ public class DialogueProceduralManager : MonoBehaviour
         List<DialogueNode> outcomeCopy = new List<DialogueNode>();
         if (outcome != null && outcome.Count > 0) outcomeCopy = ConnectDialogues(outcome, developmentCopy[developmentCopy.Count-1], dialogue);
 
-        return dialogue;
+        DialogueProcedural dialogueProc = new DialogueProcedural();
+        dialogueProc.dialogueCreator = dialogue;
+        if (themesNode.motivesList.Count > 0) dialogueProc.motv = themesNode.motivesList[Random.Range(0, themesNode.motivesList.Count)];
+        
+        return dialogueProc;
     }
 
     private List<DialogueNode> ConnectDialogues(List<DialogueNode> dialogues, OutputConectionNode startConnectNode, DialogueCreator dialogue)
@@ -144,4 +149,11 @@ public class DialogueProceduralManager : MonoBehaviour
         
         return randomNode as DialogueNode;
     }
+}
+
+[Serializable]
+public class DialogueProcedural
+{
+    public LocalizableString motv;
+    public DialogueCreator dialogueCreator;
 }

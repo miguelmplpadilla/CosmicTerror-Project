@@ -36,6 +36,9 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     protected virtual void Start()
     {
         deskContainer = GameObject.Find("DeskContiner");
+        
+        canvas.overrideSorting = false;
+        canvas.sortingOrder = 1;
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData)
@@ -45,6 +48,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         transform.SetAsLastSibling();
         canDrag = true;
         isDraging = true;
+        canvas.overrideSorting = true;
         canvas.sortingOrder = 4;
         ShowShadow(true);
         BeginDrag(eventData);
@@ -73,6 +77,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (!canDrag) return;
         isDraging = false;
         
+        canvas.overrideSorting = false;
         canvas.sortingOrder = 1;
         
         ShowShadow(false);

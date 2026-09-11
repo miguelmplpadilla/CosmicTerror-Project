@@ -23,7 +23,15 @@ public class NPCBase : InterBaseController
 
     public override void Inter(DocumentData documentData)
     {
+        if (DialogueController.instance.isPlayingDialogue) return;
+        
         DialogueController.instance.StartDialogue(documentData.GetDialogue(this), this, 0);
+    }
+
+    public override void ShowIcon(bool show)
+    {
+        if (show && DialogueController.instance.isPlayingDialogue) return;
+        base.ShowIcon(show);
     }
 }
 

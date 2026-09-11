@@ -12,7 +12,9 @@ public class NPCProcedural : NPCBase
             Debug.LogError("No se ha generado correctamente el dialogo procedural");
             return;
         }
+
+        motiveText = dialogue.motv;
         
-        DialogueController.instance.StartDialogue(dialogue, this);
+        DialogueController.instance.StartDialogue(dialogue.dialogueCreator, this);
     }
 }
