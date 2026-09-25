@@ -10,6 +10,8 @@ public class FilePaperManager : MonoBehaviour
     
     public GameObject prefabButtonFile;
     public GameObject container;
+
+    public GameObject panelContainerOpen;
     
     public List<FilePaperButton> filePaperButtons = new List<FilePaperButton>();
 
@@ -26,12 +28,8 @@ public class FilePaperManager : MonoBehaviour
         {
             var filePaperButton = Instantiate(prefabButtonFile, container.transform).GetComponent<FilePaperButton>();
             filePaperButton.textLetter.text = alphabetSplit[i].ToUpper();
-            
-            float pivotY = alphabetSplit.Count <= 1
-                ? 1f
-                : 1f - ((float)i / (alphabetSplit.Count - 1));
 
-            filePaperButton.fileButtonRt.pivot = new Vector2(1, pivotY);
+            filePaperButton.gameObject.name = "ButtonFile" + alphabetSplit[i].ToUpper();
             
             filePaperButtons.Add(filePaperButton);
         }

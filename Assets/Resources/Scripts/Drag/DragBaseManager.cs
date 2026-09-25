@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -49,7 +50,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         canDrag = true;
         isDraging = true;
         canvas.overrideSorting = true;
-        canvas.sortingOrder = 4;
+        canvas.sortingOrder = 11;
         ShowShadow(true);
         BeginDrag(eventData);
     }
@@ -127,6 +128,8 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     protected bool GetContainerType()
     {
         RaycastHit2D[] hits = GetContactObject();
+
+        Array.Reverse(hits);
 
         foreach (var hit in hits)
         {

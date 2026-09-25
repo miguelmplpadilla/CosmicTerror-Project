@@ -14,6 +14,8 @@ public class FilePaperInterManager : InterBaseController
     
     public List<GameObject> documentFiles = new List<GameObject>();
 
+    public FilePaperButton filePaperButton;
+
     private void Update()
     {
         boxCollider.size = rt.sizeDelta;
@@ -58,5 +60,12 @@ public class FilePaperInterManager : InterBaseController
         documentFile.SetData(photoController);
 
         return photoInstance;
+    }
+
+    public override bool CanInteractWith(DragBaseManager objInter)
+    {
+        var canBase = base.CanInteractWith(objInter);
+
+        return canBase && filePaperButton.panelOpened;
     }
 }
