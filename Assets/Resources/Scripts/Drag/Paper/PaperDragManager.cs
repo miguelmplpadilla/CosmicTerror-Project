@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,7 +13,6 @@ namespace Resources.Scripts
         private bool _lockedOnPaper = false;
 
         public Vector3 typewriterScale = Vector3.one;
-        public Vector3 corkScale = Vector3.one;
 
         public float distanceMaxPaperContainer = 250;
 
@@ -24,8 +22,6 @@ namespace Resources.Scripts
         public string motvText;
 
         public Image[] imagesBackground;
-
-        public PushpinController pushpin;
 
         public GameObject stampsParent;
 
@@ -42,18 +38,6 @@ namespace Resources.Scripts
         public bool paperSeparated = false;
         
         public StampController.TypeStamp typeStamp = StampController.TypeStamp.NONE;
-
-        protected override void Start()
-        {
-            base.Start();
-            
-            EventBus<CheckInsideCorkboard>.Register(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
-        }
-
-        private void OnDestroy()
-        {
-            EventBus<CheckInsideCorkboard>.Deregister(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
-        }
 
         private void Update()
         {
@@ -123,15 +107,6 @@ namespace Resources.Scripts
 
         protected override void Drag(PointerEventData eventData)
         {
-            pushpin.gameObject.SetActive(false);
-            
-            GameObject currentContainer = GetContainer();
-            if (currentContainer != null && currentContainer.name.Equals("Cork"))
-            {
-                transform.localScale = corkScale;
-                pushpin.gameObject.SetActive(!isOnPaperContainer);
-            }
-
             if (isOnPaperContainer && IsTheSameInputPaper())
             {
                 SetSize(true);
@@ -141,6 +116,10 @@ namespace Resources.Scripts
             {
                 base.Drag(eventData);
             }
+            
+            GameObject currentContainer = GetContainer();
+            if (currentContainer != null && currentContainer.name.Equals("Cork"))
+                pushpin.gameObject.SetActive(!isOnPaperContainer);
             
             transform.SetParent(isOnPaperContainer && IsTheSameInputPaper()
                 ? TypewriterManager.instance.paperRT.transform
@@ -158,6 +137,7 @@ namespace Resources.Scripts
 
         protected override void EndDrag(PointerEventData eventData)
         {
+            base.EndDrag(eventData);
             
             if (isOnPaperContainer && IsTheSameInputPaper())
             {
@@ -171,11 +151,7 @@ namespace Resources.Scripts
             }
             
             GameObject currentContainer = GetContainer();
-            if (currentContainer != null && currentContainer.name.Equals("Cork"))
-            {
-                transform.SetParent(currentContainer.transform);
-                return;
-            }
+            if (currentContainer != null && currentContainer.name.Equals("Cork")) return;
             
             if (IsOnBackContainer())
             {
@@ -221,12 +197,6 @@ namespace Resources.Scripts
         {
             return TypewriterManager.instance.paperDragManager == null ||
                    TypewriterManager.instance.paperDragManager == this;
-        }
-
-        private void IsInCorkBoard()
-        {
-            if (!transform.parent.name.Equals("Cork"))
-                pushpin.RemoveAllLines();
         }
     }
 }

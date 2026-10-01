@@ -13,6 +13,8 @@ public class FileDragController : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public RectTransform panelRt;
 
+    public FilePaperInterManager filePaperInterManager;
+
     private void Awake()
     {
         _layoutElement = GetComponent<LayoutElement>();
@@ -36,6 +38,7 @@ public class FileDragController : MonoBehaviour, IBeginDragHandler, IDragHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         objDocument.OnEndDrag(eventData);
+        filePaperInterManager?.documentFiles.Remove(gameObject);
         Destroy(gameObject);
     }
     

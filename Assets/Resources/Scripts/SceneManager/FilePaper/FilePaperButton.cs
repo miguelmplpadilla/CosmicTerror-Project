@@ -12,17 +12,16 @@ public class FilePaperButton : MonoBehaviour
     public Button buttonReturn;
     
     public TextMeshProUGUI textLetter;
+    
+    private float animationTime = 0.3f;
 
     public RectTransform fileButtonRt;
-    public RectTransform panelFileLetter;
     public RectTransform panelFilePaperContainer;
 
     private GameObject originalParent;
     public Vector3 originalLocalPosition;
     
     public GameObject panelAllFile;
-    
-    public GameObject parent;
 
     public bool panelOpened = false;
     public bool panelAnimating = false;
@@ -66,8 +65,8 @@ public class FilePaperButton : MonoBehaviour
         
         canvas.sortingOrder = 2;
         
-        panelFileLetter.DOKill();
-        panelFileLetter.DOAnchorPosX(-5, 0.3f);
+        fileButtonRt.DOKill();
+        fileButtonRt.DOAnchorPosX(-5, 0.3f);
     }
 
     private void OnPointerExit(BaseEventData data)
@@ -76,8 +75,8 @@ public class FilePaperButton : MonoBehaviour
         
         canvas.sortingOrder = 1;
         
-        panelFileLetter.DOKill();
-        panelFileLetter.DOAnchorPosX(0, 0.3f);
+        fileButtonRt.DOKill();
+        fileButtonRt.DOAnchorPosX(0, 0.3f);
     }
     
     private void OnPointerDown(BaseEventData data)
@@ -98,17 +97,22 @@ public class FilePaperButton : MonoBehaviour
 
         panelOpened = true;
         
-        panelFileLetter.DOKill();
-        panelFileLetter.DOAnchorPosX(0, 0.3f);
+        panelFilePaperContainer.pivot = new Vector2(0.5f, 0.5f);
+        panelFilePaperContainer.anchoredPosition = new Vector2(panelFilePaperContainer.anchoredPosition.x, -21);
+        
+        // panelFilePaperContainer.DOAnchorPosY(-21, animationTime);
+        
+        fileButtonRt.DOKill();
+        fileButtonRt.DOAnchorPosX(0, animationTime);
         
         panelAllFile.transform.SetParent(FilePaperManager.instance.panelContainerOpen.transform);
-        panelAllFile.transform.DOLocalMove(Vector2.zero, 0.3f);
-        panelAllFile.transform.DOScale(4, 0.3f);
+        panelAllFile.transform.DOLocalMove(Vector2.zero, animationTime);
+        panelAllFile.transform.DOScale(4, animationTime);
 
         allPanelCanvas.sortingOrder = 10;
         allPanelCanvas.overrideSorting = true;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(animationTime);
 
         panelAnimating = false;
     }
@@ -117,18 +121,23 @@ public class FilePaperButton : MonoBehaviour
     {
         if (!IsThisFilePaperOpened() || panelAnimating || !panelOpened) yield break;
 
+        panelFilePaperContainer.pivot = new Vector2(0.5f, 1);
+        panelFilePaperContainer.anchoredPosition = new Vector2(panelFilePaperContainer.anchoredPosition.x, 0);
+
         panelAnimating = true;
 
         panelOpened = false;
+
+        panelFilePaperContainer.DOAnchorPosY(0, animationTime);
         
         panelAllFile.transform.SetParent(originalParent.transform);
-        panelAllFile.transform.DOLocalMove(originalLocalPosition, 0.3f);
-        panelAllFile.transform.DOScale(1, 0.3f);
+        panelAllFile.transform.DOLocalMove(originalLocalPosition, animationTime);
+        panelAllFile.transform.DOScale(1, animationTime);
 
         allPanelCanvas.sortingOrder = 1;
         allPanelCanvas.overrideSorting = true;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(animationTime);
 
         panelAnimating = false;
     }

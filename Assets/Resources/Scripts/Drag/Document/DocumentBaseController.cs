@@ -8,6 +8,10 @@ public class DocumentBaseController : DragBaseManager
     
     private InterBaseController interContact;
     private InterBaseController lastInterContact;
+    
+    public PushpinController pushpin;
+    
+    public Vector3 corkScale = Vector3.one;
 
     protected override void Awake()
     {
@@ -16,9 +20,35 @@ public class DocumentBaseController : DragBaseManager
         if (documentData != null) documentData.documentBaseController = this;
     }
 
+    protected override void Start()
+    {
+        base.Start();
+
+        pushpin.documentBaseController = this;
+        
+        EventBus<CheckInsideCorkboard>.Register(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
+    }
+    
+    private void OnDestroy()
+    {
+        EventBus<CheckInsideCorkboard>.Deregister(new EventBinding<CheckInsideCorkboard>(IsInCorkBoard, gameObject));
+    }
+
     protected override void Drag(PointerEventData eventData)
     {
         base.Drag(eventData);
+        
+        GameObject currentContainer = GetContainer();
+        if (currentContainer != null && currentContainer.name.Equals("Cork"))
+        {
+            pushpin.ChangeAlpha(1);
+            pushpin.gameObject.SetActive(true);
+            transform.localScale = corkScale;
+        }
+        else
+        {
+            pushpin.ChangeAlpha(0.5f);
+        }
         
         interContact = GetInterContact();
 
@@ -34,6 +64,8 @@ public class DocumentBaseController : DragBaseManager
     {
         base.EndDrag(eventData);
         
+        pushpin.ChangeAlpha(1);
+        
         if (interContact != null)
         {
             interContact.Inter(documentData);
@@ -46,5 +78,22 @@ public class DocumentBaseController : DragBaseManager
         lastInterContact = null;
         
         MouseController.instance.ShowAskIcon(false);
+        
+        GameObject currentContainer = GetContainer();
+        if (currentContainer != null && currentContainer.name.Equals("Cork"))
+        {
+            transform.SetParent(currentContainer.transform);
+        }
+        else
+        {
+            pushpin.gameObject.SetActive(false);
+            pushpin.RemoveAllLines();
+        }
+    }
+    
+    private void IsInCorkBoard()
+    {
+        if (!transform.parent.name.Equals("Cork"))
+            pushpin.RemoveAllLines();
     }
 }

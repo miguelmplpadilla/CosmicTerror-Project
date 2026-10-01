@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// Thank you CGPala for the original UILineRender
 /// https://gist.github.com/CGPala/d1ace7dddbfbe78cd2de2bb9e40f6393
 [RequireComponent(typeof(CanvasRenderer))]
-public class UILineRenderer : Graphic
+public class UILineRenderer : Graphic, ICanvasRaycastFilter
 {
     [SerializeField] Texture m_Texture;
     [SerializeField] Rect m_UVRect = new Rect(0f, 0f, 1f, 1f);
@@ -18,6 +18,7 @@ public class UILineRenderer : Graphic
     public Vector2 Margin;
     public Vector2[] Points;
     public bool relativeSize;
+    public float RaycastExtraPadding = 8f;
 
     public override Texture mainTexture
     {
@@ -71,6 +72,33 @@ public class UILineRenderer : Graphic
         SetVerticesDirty();
     }
 
+    public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera)
+    {
+        if (Points == null || Points.Length < 2)
+            return false;
+
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                rectTransform,
+                screenPoint,
+                eventCamera,
+                out Vector2 localPoint))
+            return false;
+
+        float maxDistance = Mathf.Max(0.1f, (LineThickness * 0.5f) + RaycastExtraPadding);
+        float maxDistanceSqr = maxDistance * maxDistance;
+
+        for (int i = 1; i < Points.Length; i++)
+        {
+            Vector2 start = GetLocalPoint(Points[i - 1]);
+            Vector2 end = GetLocalPoint(Points[i]);
+
+            if (DistanceToSegmentSqr(localPoint, start, end) <= maxDistanceSqr)
+                return true;
+        }
+
+        return false;
+    }
+
     protected override void OnPopulateMesh(VertexHelper vh)
     {
         // requires sets of quads
@@ -88,12 +116,15 @@ public class UILineRenderer : Graphic
         {
             sizeX = 1;
             sizeY = 1;
+            offsetX = 0;
+            offsetY = 0;
         }
         // build a new set of points taking into account the cap sizes. 
         // would be cool to support corners too, but that might be a bit tough :)
         var pointList = new List<Vector2>();
         pointList.Add(Points[0]);
-        var capPoint = Points[0] + (Points[1] - Points[0]).normalized * capSize;
+        float startCapSize = Mathf.Min(capSize, Vector2.Distance(Points[0], Points[1]) * 0.5f);
+        var capPoint = Points[0] + (Points[1] - Points[0]).normalized * startCapSize;
         pointList.Add(capPoint);
 
         // should bail before the last point to add another cap point
@@ -101,7 +132,8 @@ public class UILineRenderer : Graphic
         {
             pointList.Add(Points[i]);
         }
-        capPoint = Points[Points.Length - 1] - (Points[Points.Length - 1] - Points[Points.Length - 2]).normalized * capSize;
+        float endCapSize = Mathf.Min(capSize, Vector2.Distance(Points[Points.Length - 1], Points[Points.Length - 2]) * 0.5f);
+        capPoint = Points[Points.Length - 1] - (Points[Points.Length - 1] - Points[Points.Length - 2]).normalized * endCapSize;
         pointList.Add(capPoint);
         pointList.Add(Points[Points.Length - 1]);
 
@@ -186,5 +218,46 @@ public class UILineRenderer : Graphic
         dir = Quaternion.Euler(angles) * dir; // rotate it
         point = dir + pivot; // calculate rotated point
         return point; // return it
+    }
+
+    private Vector2 GetLocalPoint(Vector2 point)
+    {
+        var sizeX = rectTransform.rect.width;
+        var sizeY = rectTransform.rect.height;
+        var offsetX = -rectTransform.pivot.x * rectTransform.rect.width;
+        var offsetY = -rectTransform.pivot.y * rectTransform.rect.height;
+
+        if (!relativeSize)
+        {
+            sizeX = 1;
+            sizeY = 1;
+            offsetX = 0;
+            offsetY = 0;
+        }
+
+        if (UseMargins)
+        {
+            sizeX -= Margin.x;
+            sizeY -= Margin.y;
+            offsetX += Margin.x / 2f;
+            offsetY += Margin.y / 2f;
+        }
+
+        return new Vector2(point.x * sizeX + offsetX, point.y * sizeY + offsetY);
+    }
+
+    private float DistanceToSegmentSqr(Vector2 point, Vector2 start, Vector2 end)
+    {
+        Vector2 segment = end - start;
+        float segmentLengthSqr = segment.sqrMagnitude;
+
+        if (segmentLengthSqr <= Mathf.Epsilon)
+            return (point - start).sqrMagnitude;
+
+        float t = Vector2.Dot(point - start, segment) / segmentLengthSqr;
+        t = Mathf.Clamp01(t);
+
+        Vector2 closestPoint = start + segment * t;
+        return (point - closestPoint).sqrMagnitude;
     }
 }

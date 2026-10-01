@@ -129,7 +129,7 @@ public class DragBaseManager : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     {
         RaycastHit2D[] hits = GetContactObject();
 
-        Array.Reverse(hits);
+        // Array.Reverse(hits);
 
         foreach (var hit in hits)
         {

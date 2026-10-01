@@ -9,6 +9,8 @@ namespace Resources.Scripts
     
         public RectTransform iconsRt;
         public GameObject askIcon;
+        public GameObject addIcon;
+        public GameObject removeIcon;
         
         private void Awake()
         {
@@ -34,6 +36,16 @@ namespace Resources.Scripts
         public void ShowAskIcon(bool show)
         {
             askIcon.SetActive(show);
+        }
+        
+        public void ShowAddIcon(bool show)
+        {
+            addIcon.SetActive(show);
+        }
+        
+        public void ShowRemoveIcon(bool show)
+        {
+            removeIcon.SetActive(show);
         }
     }
 }
