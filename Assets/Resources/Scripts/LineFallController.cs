@@ -10,6 +10,9 @@ namespace Resources.Scripts
         public RectTransform pointA;
         public RectTransform pointB;
 
+        public DocumentBaseController documentA;
+        public DocumentBaseController documentB;
+
         public bool connecting = false;
 
         public int cantPoints = 20;

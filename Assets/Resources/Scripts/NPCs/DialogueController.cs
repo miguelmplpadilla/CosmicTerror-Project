@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Resources.Scripts.CorkBoard;
 using Resources.Scripts.NPCs;
 using UnityEngine;
 using XNode;
@@ -20,19 +21,22 @@ public class DialogueController : MonoBehaviour
         public List<TextPanelDialogue>  dialoguesInstantiated = new List<TextPanelDialogue>();
 
         public NPCBase currentNPCSpeaking;
+        public SampledSpeechSynthesizer playerSpeechSynthesizer;
 
         public bool isPlayingDialogue = false;
+        private SampledSpeechSynthesizer fallbackSpeechSynthesizer;
 
         private void Awake()
         {
             instance = this;
+            EnsureFallbackSpeechSynthesizer();
         }
 
         public void StartDialogue(DialogueCreator dialogue, NPCBase npcSpeaking, float waitTime = 1)
         {
             isPlayingDialogue = true;
             currentNPCSpeaking = npcSpeaking;
-            currentNPCSpeaking.canvasGroup.alpha = 0;
+            if (currentNPCSpeaking != null) currentNPCSpeaking.canvasGroup.alpha = 0;
             StartCoroutine(PlayDialogue(dialogue, waitTime));
         }
 
@@ -44,10 +48,10 @@ public class DialogueController : MonoBehaviour
 
             if (firstDialogueNode == null) yield break;
 
-            currentNPCSpeaking.canvasGroup.DOFade(1, waitTime);
+            currentNPCSpeaking?.canvasGroup.DOFade(1, waitTime);
             yield return new WaitForSeconds(waitTime + 0.2f);
 
-            StartCoroutine(PlayNode(firstDialogueNode));
+            yield return PlayNode(firstDialogueNode);
         }
 
         private IEnumerator PlayNode(BaseNode node)
@@ -80,7 +84,7 @@ public class DialogueController : MonoBehaviour
                 yield break;
             }
             
-            StartCoroutine(PlayNode(nextNode));
+            yield return PlayNode(nextNode);
         }
 
         private IEnumerator ShowText(DialogueNode dialogueNode)
@@ -99,11 +103,52 @@ public class DialogueController : MonoBehaviour
 
             StartCoroutine(dialogueInstance.GetComponent<TextPanelDialogue>().ShowDialogue(dialogueNode));
 
-            yield return new WaitForSeconds(2);
+            float startTime = Time.time;
+            if (dialogueNode.speaker != DialogueNode.Speaker.PLAYER)
+                yield return PlaySpeech(dialogueNode);
+
+            float remainingTextTime = 2f - (Time.time - startTime);
+            if (remainingTextTime > 0)
+                yield return new WaitForSeconds(remainingTextTime);
+        }
+
+        private IEnumerator PlaySpeech(DialogueNode dialogueNode)
+        {
+            SampledSpeechSynthesizer speechSynthesizer = null;
+
+            if (dialogueNode.speaker == DialogueNode.Speaker.NPC && currentNPCSpeaking != null)
+                speechSynthesizer = currentNPCSpeaking.GetComponentInChildren<SampledSpeechSynthesizer>();
+
+            if (dialogueNode.speaker == DialogueNode.Speaker.PLAYER)
+                speechSynthesizer = playerSpeechSynthesizer;
+
+            if (speechSynthesizer == null)
+                speechSynthesizer = fallbackSpeechSynthesizer;
+
+            if (speechSynthesizer == null) yield break;
+
+            yield return speechSynthesizer.Speak(dialogueNode.dialogueText.value);
+        }
+
+        private void EnsureFallbackSpeechSynthesizer()
+        {
+            if (playerSpeechSynthesizer != null)
+            {
+                fallbackSpeechSynthesizer = playerSpeechSynthesizer;
+                return;
+            }
+
+            fallbackSpeechSynthesizer = GetComponentInChildren<SampledSpeechSynthesizer>();
+            if (fallbackSpeechSynthesizer == null)
+                fallbackSpeechSynthesizer = gameObject.AddComponent<SampledSpeechSynthesizer>();
+
+            playerSpeechSynthesizer = fallbackSpeechSynthesizer;
         }
         
         private IEnumerator AnimateNpc(AnimationDialogueNode animationDialogueNode)
         {
+            if (currentNPCSpeaking == null) yield break;
+            
             string animatorName = animationDialogueNode.animationType.ToString().ToLower();
             currentNPCSpeaking.animator.Play(animationDialogueNode.animationType.ToString().ToLower(), 0, 0);
 
@@ -122,8 +167,13 @@ public class DialogueController : MonoBehaviour
 
         private IEnumerator ExitNpc()
         {
+            if (currentNPCSpeaking == null) yield break;
+
             currentNPCSpeaking.canvasGroup.DOFade(0, 1);
             yield return new WaitForSeconds(1);
+            
+            EventBus<ShowHideButtonCorkBoard>.Raise(new ShowHideButtonCorkBoard { show = false });
+            
             isPlayingDialogue = false;
             Destroy(currentNPCSpeaking.gameObject);
         }
@@ -135,7 +185,7 @@ public class DialogueController : MonoBehaviour
 
             yield return ShowText(dialoguePlayer);
             
-            StartCoroutine(PlayNode(nextNode));
+            yield return PlayNode(nextNode);
         }
         
         private void CreateDecisionButtons(DialogueDecisionNode dialogueDecisionNode)

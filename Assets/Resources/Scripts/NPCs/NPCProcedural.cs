@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class NPCProcedural : NPCBase
 {
-    protected override void Start()
+    protected override void PlayDialogue()
     {
-        base.Start();
-
         var dialogue = DialogueProceduralManager.instance.CreateDialogue();
         if (dialogue == null)
         {

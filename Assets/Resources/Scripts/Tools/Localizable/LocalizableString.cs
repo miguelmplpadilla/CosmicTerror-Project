@@ -17,11 +17,11 @@ public class LocalizableString
             switch (language)
             {
                 case "es":
-                    return valueSpanish;
+                    return string.IsNullOrWhiteSpace(valueSpanish) ? valueEnglish : valueSpanish;
                 case "en":
-                    return valueEnglish;
+                    return string.IsNullOrWhiteSpace(valueEnglish) ? valueSpanish : valueEnglish;
                 default:
-                    return valueEnglish;
+                    return string.IsNullOrWhiteSpace(valueEnglish) ? valueSpanish : valueEnglish;
             }
         }
 

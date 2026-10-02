@@ -1,4 +1,5 @@
 using System;
+using Resources.Scripts.CorkBoard;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,6 +20,10 @@ public class NPCBase : InterBaseController
         
         GameManager.instance.currentName = npcName;
         GameManager.instance.currentMotv = motiveText.value; //TODO: Modificar motivos mediante DialogueNode
+        
+        EventBus<ShowHideButtonCorkBoard>.Raise(new ShowHideButtonCorkBoard { show = true });
+        
+        PlayDialogue();
     }
 
     public override void Inter(DocumentData documentData)
@@ -32,6 +37,11 @@ public class NPCBase : InterBaseController
     {
         if (show && DialogueController.instance.isPlayingDialogue) return;
         base.ShowIcon(show);
+    }
+
+    protected virtual void PlayDialogue()
+    {
+        
     }
 }
 

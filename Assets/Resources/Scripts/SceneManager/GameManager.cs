@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    public List<DialogueCreator> dialoguesPlayedConnection = new List<DialogueCreator>();
     
     public NamesNpc npcName;
     
@@ -28,6 +30,16 @@ public class GameManager : MonoBehaviour
             npcName.namesList.Add(nameNpc);
         foreach (var lastName in npcName.lastName.Replace(" ", "").Split(","))
             npcName.lastNamesList.Add(lastName);
+    }
+
+    public void AddDialogueCreatorConnection(DialogueCreator dialogueCreator)
+    {
+        dialoguesPlayedConnection.Add(dialogueCreator);
+    }
+
+    public bool CheckIfDialogueConnectionPlayed(DialogueCreator dialogueCreator)
+    {
+        return dialoguesPlayedConnection.Find(it => it == dialogueCreator) != null;
     }
 }
 

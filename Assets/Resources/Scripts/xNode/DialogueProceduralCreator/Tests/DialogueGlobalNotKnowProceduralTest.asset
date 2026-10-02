@@ -175,6 +175,7 @@ MonoBehaviour:
   introductionDialogues: {fileID: 0}
   developmentDialogues: {fileID: 0}
   outcomeDialogues: {fileID: 0}
+  motivesList: []
 --- !u!114 &-1614792886767636309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +242,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   graph: {fileID: 11400000}
-  position: {x: -1192, y: -648}
+  position: {x: -1432, y: -872}
   ports:
     keys:
     - baseInput
@@ -287,7 +288,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   graph: {fileID: 11400000}
-  position: {x: -1192, y: -856}
+  position: {x: -1448, y: -1192}
   ports:
     keys:
     - baseInput
@@ -333,7 +334,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   graph: {fileID: 11400000}
-  position: {x: -1144, y: -408}
+  position: {x: -1080, y: -520}
   ports:
     keys:
     - baseInput

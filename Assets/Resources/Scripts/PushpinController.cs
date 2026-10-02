@@ -38,7 +38,9 @@ public class PushpinController : MonoBehaviour
         if (currentLine == null) return;
         
         DocumentBaseController nearestCorrectDocument = GetCorrectNearDocument();
-        if (nearestCorrectDocument == null) return;
+        if (nearestCorrectDocument == null ||
+            ConnectionsController.instance.CheckIfDocumentsAreConnected(documentBaseController, nearestCorrectDocument))
+            return;
         
         float distance = Vector3.Distance(MouseController.instance.transform.position,  nearestCorrectDocument.transform.position);
 
@@ -71,6 +73,9 @@ public class PushpinController : MonoBehaviour
         {
             if (result.gameObject.TryGetComponent(out DocumentBaseController document) && result.gameObject.transform.parent.name.Equals("Cork"))
             {
+                if (ConnectionsController.instance.CheckIfDocumentsAreConnected(documentBaseController, document))
+                    break;
+                
                 bool isCorrectConnection = ConnectionsController.instance.CheckCorrectConnection(
                     documentBaseController.documentData,
                     document.documentData);
@@ -81,6 +86,18 @@ public class PushpinController : MonoBehaviour
                 StartCoroutine(OnSuccessFailLine(isCorrectConnection));
 
                 if (!isCorrectConnection) return;
+                
+                var dialogueCreator = ConnectionsController.instance.GetDialogueConnection(
+                    documentBaseController.documentData, document.documentData);
+
+                if (!GameManager.instance.CheckIfDialogueConnectionPlayed(dialogueCreator))
+                {
+                    DialogueController.instance.StartDialogue(dialogueCreator, null, 0);
+                    GameManager.instance.AddDialogueCreatorConnection(dialogueCreator);
+                }
+
+                currentLine.documentA = documentBaseController;
+                currentLine.documentB = document;
                 
                 document.pushpin.currentLines.Add(currentLine);
                 return;
@@ -130,6 +147,8 @@ public class PushpinController : MonoBehaviour
 
         foreach (var documentObj in documentObjs)
         {
+            if (documentObj == documentBaseController) continue;
+            
             var isCorrect = ConnectionsController.instance.CheckCorrectConnection(documentBaseController.documentData,
                 documentObj.documentData);
             if (!isCorrect) continue;

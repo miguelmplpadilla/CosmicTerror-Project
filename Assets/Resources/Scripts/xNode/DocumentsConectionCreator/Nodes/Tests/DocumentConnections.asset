@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Document Conection
   m_EditorClassIdentifier: Assembly-CSharp::DocumentConectionNode
   graph: {fileID: 11400000}
-  position: {x: 604.8741, y: -308.66068}
+  position: {x: 856, y: -312}
   ports:
     keys:
     - baseInput
@@ -25,7 +25,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: baseOutput
-        node: {fileID: 2249582498575521778}
+        node: {fileID: 1151997103341026395}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -59,6 +59,53 @@ MonoBehaviour:
   - {fileID: 6570002675369605954}
   - {fileID: 2249582498575521778}
   - {fileID: -5892407758109619583}
+  - {fileID: 1151997103341026395}
+--- !u!114 &1151997103341026395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8e3d70d76f042f9bc74b60fb7f4b952, type: 3}
+  m_Name: Intermediate Document Connection
+  m_EditorClassIdentifier: Assembly-CSharp::IntermediateDocumentConnectionNode
+  graph: {fileID: 11400000}
+  position: {x: 456, y: -296}
+  ports:
+    keys:
+    - baseOutput
+    - baseInput
+    values:
+    - _fieldName: baseOutput
+      _node: {fileID: 1151997103341026395}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseInput
+        node: {fileID: -5892407758109619583}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: baseInput
+      _node: {fileID: 1151997103341026395}
+      _typeQualifiedName: BaseNode, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: baseOutput
+        node: {fileID: 2249582498575521778}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  baseOutput: {fileID: 0}
+  baseInput: {fileID: 0}
+  dialogueConnection: {fileID: 11400000, guid: 401b168b3a3866445880017c6ae397de, type: 2}
 --- !u!114 &2249582498575521778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +119,7 @@ MonoBehaviour:
   m_Name: Document Conection
   m_EditorClassIdentifier: Assembly-CSharp::DocumentConectionNode
   graph: {fileID: 11400000}
-  position: {x: 120, y: -312}
+  position: {x: 24, y: -312}
   ports:
     keys:
     - baseInput
@@ -96,7 +143,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: baseInput
-        node: {fileID: -5892407758109619583}
+        node: {fileID: 1151997103341026395}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -118,7 +165,7 @@ MonoBehaviour:
   m_Name: Start Level Document Connections
   m_EditorClassIdentifier: Assembly-CSharp::StartLevelDocumentConnectionsNode
   graph: {fileID: 11400000}
-  position: {x: -274.74872, y: -162.92307}
+  position: {x: -424, y: -280}
   ports:
     keys:
     - baseOutput

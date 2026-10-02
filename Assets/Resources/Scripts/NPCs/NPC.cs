@@ -2,10 +2,8 @@
 {
     public DialogueCreator startDialogue;
 
-    protected override void Start()
+    protected override void PlayDialogue()
     {
-        base.Start();
-        
         if (startDialogue != null) 
             DialogueController.instance.StartDialogue(startDialogue, this);
     }

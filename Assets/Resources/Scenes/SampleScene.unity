@@ -2804,6 +2804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fa4819f1dc5a94a89180a10be83fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialoguesPlayedConnection: []
   npcName:
     names: "Enric,Jaume,Vicent,Miquel,Bernat,Andreu,Jordi,Salvador,Gonzalo,Rodrigo,\xC1lvaro,Diego,Fernando,Mart\xEDn,Alonso,Luis,Pedro,Francisco,Crist\xF3bal,Bartolom\xE9"
     lastName: "Gonz\xE1lez,Rodr\xEDguez,Fern\xE1ndez,Garc\xEDa,L\xF3pez,Mart\xEDnez,S\xE1nchez,Hern\xE1ndez,Vives,Escriv\xE0,Orts,Serra,Dom\xE9nech,Puig,Roig,Benavent,Cardona,March,Albiol,Soler"
@@ -5073,6 +5074,8 @@ GameObject:
   - component: {fileID: 1677162968}
   - component: {fileID: 1677162970}
   - component: {fileID: 1677162971}
+  - component: {fileID: 1677162973}
+  - component: {fileID: 1677162972}
   m_Layer: 5
   m_Name: ParentOptionsDialoguePlayer
   m_TagString: Untagged
@@ -5153,6 +5156,46 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1677162972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677162966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1677162973
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677162966}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 20
+  m_TargetDisplay: 0
 --- !u!1 &1698901792
 GameObject:
   m_ObjectHideFlags: 0
@@ -5209,6 +5252,7 @@ MonoBehaviour:
     startSumYPosition: -20
   dialoguesInstantiated: []
   currentNPCSpeaking: {fileID: 0}
+  playerSpeechSynthesizer: {fileID: 0}
   isPlayingDialogue: 0
 --- !u!114 &1698901795
 MonoBehaviour:
@@ -5234,6 +5278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1765809050}
+  - component: {fileID: 1765809051}
   m_Layer: 5
   m_Name: ParentDialoguePlayer
   m_TagString: Untagged
@@ -5260,6 +5305,29 @@ RectTransform:
   m_AnchoredPosition: {x: -151.3, y: -216}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &1765809051
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765809049}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 20
+  m_TargetDisplay: 0
 --- !u!224 &1781756890 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2981523743675784525, guid: 4d110687be82ab04db55a92055316093, type: 3}
@@ -6947,13 +7015,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4998312155314225091, guid: 9e364820418c014428db7413b7f75a88, type: 3}
+      propertyPath: voice
+      value: 
+      objectReference: {fileID: 11400000, guid: 37838fffa67df12479ead600281dec57, type: 2}
     - target: {fileID: 8364308987136661652, guid: 9e364820418c014428db7413b7f75a88, type: 3}
       propertyPath: m_Name
       value: NPCCreatedTest
       objectReference: {fileID: 0}
     - target: {fileID: 8364308987136661652, guid: 9e364820418c014428db7413b7f75a88, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

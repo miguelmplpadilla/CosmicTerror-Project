@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dialogue Decision
   m_EditorClassIdentifier: Assembly-CSharp::DialogueDecisionNode
   graph: {fileID: 11400000}
-  position: {x: 456, y: 40}
+  position: {x: 648, y: -136}
   ports:
     keys:
     - decision1Output
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   graph: {fileID: 11400000}
-  position: {x: 1736, y: -120}
+  position: {x: 1224, y: -216}
   ports:
     keys:
     - baseInput
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   graph: {fileID: 11400000}
-  position: {x: 1016, y: 392}
+  position: {x: 1112, y: 600}
   ports:
     keys:
     - baseInput
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   graph: {fileID: 11400000}
-  position: {x: 1512, y: 216}
+  position: {x: 1144, y: 232}
   ports:
     keys:
     - baseInput

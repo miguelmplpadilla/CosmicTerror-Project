@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using Resources.Scripts;
+using Resources.Scripts.CorkBoard;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,11 +19,13 @@ public class CorkBoardController : MonoBehaviour
     private void Start()
     {
         openCloseButton.onClick.AddListener( () => StartCoroutine(OpenClose()));
+        EventBus<ShowHideButtonCorkBoard>.Register(new EventBinding<ShowHideButtonCorkBoard>(ShowHideButton, gameObject));
     }
 
     private void OnDestroy()
     {
         openCloseButton.onClick.RemoveListener(() => StartCoroutine(OpenClose()));
+        EventBus<ShowHideButtonCorkBoard>.Deregister(new EventBinding<ShowHideButtonCorkBoard>(ShowHideButton, gameObject));
     }
 
     public IEnumerator OpenClose()
@@ -43,5 +46,12 @@ public class CorkBoardController : MonoBehaviour
         yield return new WaitForSeconds(1.05f);
 
         isAnimating = false;
+    }
+
+    public void ShowHideButton(ShowHideButtonCorkBoard showHideButtonCorkBoard)
+    {
+        if (isOpened) StartCoroutine(OpenClose());
+        
+        buttonOpenCloseRt.DOAnchorPosX(!showHideButtonCorkBoard.show ? -15 : 0, 1);
     }
 }
