@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -21,7 +20,9 @@ namespace Resources.Scripts
             _paperDragManagerClone.canWrite = false;
             
             _paperDragManagerClone.OnBeginDrag(eventData);
+            
             paperDragManager.paperSeparated = true;
+            _paperDragManagerClone.paperSeparated = true;
         }
 
         public void OnDrag(PointerEventData eventData)

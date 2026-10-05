@@ -16,10 +16,14 @@ public class CorkBoardController : MonoBehaviour
     private bool isOpened = false;
     private bool isAnimating = false;
 
+    private void Awake()
+    {
+        EventBus<ShowHideButtonCorkBoard>.Register(new EventBinding<ShowHideButtonCorkBoard>(ShowHideButton, gameObject));
+    }
+
     private void Start()
     {
         openCloseButton.onClick.AddListener( () => StartCoroutine(OpenClose()));
-        EventBus<ShowHideButtonCorkBoard>.Register(new EventBinding<ShowHideButtonCorkBoard>(ShowHideButton, gameObject));
     }
 
     private void OnDestroy()
@@ -50,6 +54,7 @@ public class CorkBoardController : MonoBehaviour
 
     public void ShowHideButton(ShowHideButtonCorkBoard showHideButtonCorkBoard)
     {
+        Debug.Log("ShowHideButton");
         if (isOpened) StartCoroutine(OpenClose());
         
         buttonOpenCloseRt.DOAnchorPosX(!showHideButtonCorkBoard.show ? -15 : 0, 1);

@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     public int currentDefaultIndex = 0;
 
+    public bool isNPCShowed = false;
+
     private void Awake()
     {
         instance = this;

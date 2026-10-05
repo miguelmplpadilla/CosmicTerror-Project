@@ -92,7 +92,7 @@ public class PushpinController : MonoBehaviour
 
                 if (!GameManager.instance.CheckIfDialogueConnectionPlayed(dialogueCreator))
                 {
-                    DialogueController.instance.StartDialogue(dialogueCreator, null, 0);
+                    StartCoroutine(DialogueController.instance.StartDialogue(dialogueCreator, null));
                     GameManager.instance.AddDialogueCreatorConnection(dialogueCreator);
                 }
 

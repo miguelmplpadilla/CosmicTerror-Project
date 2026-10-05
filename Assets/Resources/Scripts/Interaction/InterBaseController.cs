@@ -8,7 +8,7 @@ public class InterBaseController : MonoBehaviour
         return objInter is DocumentBaseController;
     }
 
-    public virtual void Inter(DocumentData documentData)
+    public virtual void Inter(DocumentBaseController documentBaseController)
     {
         
     }

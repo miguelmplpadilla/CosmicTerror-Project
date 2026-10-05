@@ -8,6 +8,7 @@ public class CategoryNode : BaseNode
 		GLOBAL, ALUCINATIONS, PAIN, BRAWL, FEAR
 	}
 	
+	public StampController.TypeStamp typeDiagnosis;
 	public Category category;
 	[Range(1, 10)]
 	public int stressThreshold = 10;

@@ -63,6 +63,8 @@ public class DialogueProceduralManager : MonoBehaviour
         DialogueProcedural dialogueProc = new DialogueProcedural();
         dialogueProc.dialogueCreator = dialogue;
         if (themesNode.motivesList.Count > 0) dialogueProc.motv = themesNode.motivesList[Random.Range(0, themesNode.motivesList.Count)];
+
+        dialogueProc.typeDiagnosis = selectedCategory.typeDiagnosis;
         
         return dialogueProc;
     }
@@ -155,5 +157,6 @@ public class DialogueProceduralManager : MonoBehaviour
 public class DialogueProcedural
 {
     public LocalizableString motv;
+    public StampController.TypeStamp typeDiagnosis;
     public DialogueCreator dialogueCreator;
 }

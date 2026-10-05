@@ -68,7 +68,7 @@ public class DocumentBaseController : DragBaseManager
         
         if (interContact != null)
         {
-            interContact.Inter(documentData);
+            interContact.Inter(this);
             interContact.ShowIcon(false);
             interContact = null;
         }

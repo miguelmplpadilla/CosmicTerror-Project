@@ -227,6 +227,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+  typeDiagnosis: 1
   category: 2
   stressThreshold: 1
   themes: {fileID: 0}

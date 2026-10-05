@@ -1,3 +1,4 @@
+using Resources.Scripts.NPCs.AskNPC;
 using UnityEngine;
 
 public class NPCProcedural : NPCBase
@@ -12,7 +13,13 @@ public class NPCProcedural : NPCBase
         }
 
         motiveText = dialogue.motv;
+        typeDiagnosis = dialogue.typeDiagnosis;
         
-        DialogueController.instance.StartDialogue(dialogue.dialogueCreator, this);
+        StartCoroutine(DialogueController.instance.StartDialogue(dialogue.dialogueCreator, this));
+    }
+    
+    protected override void AskNPC(AskQuestionNPCEvent askQuestion)
+    {
+        
     }
 }

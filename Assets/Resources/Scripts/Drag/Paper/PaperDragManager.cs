@@ -39,6 +39,13 @@ namespace Resources.Scripts
         
         public StampController.TypeStamp typeStamp = StampController.TypeStamp.NONE;
 
+        protected override void Awake()
+        {
+            documentData = ScriptableObject.CreateInstance<DocumentData>();
+            
+            base.Awake();
+        }
+
         private void Update()
         {
             distancePaperContainer = Vector2.Distance(

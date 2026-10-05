@@ -25,6 +25,13 @@ public class DialogueController : MonoBehaviour
 
         public bool isPlayingDialogue = false;
         private SampledSpeechSynthesizer fallbackSpeechSynthesizer;
+        
+        public List<DialogueCreator> dialogueDiagnosisPaperNormal = new List<DialogueCreator>();
+        public List<DialogueCreator> dialogueDiagnosisPaperMad = new List<DialogueCreator>();
+        public List<DialogueCreator> dialogueDiagnosisPaperWrong = new List<DialogueCreator>();
+        
+        public List<DialogueCreator> dialogueDiagnosisPaperNoStamp = new List<DialogueCreator>();
+        public List<DialogueCreator> dialogueDiagnosisPaperNoSeparated = new List<DialogueCreator>();
 
         private void Awake()
         {
@@ -32,15 +39,14 @@ public class DialogueController : MonoBehaviour
             EnsureFallbackSpeechSynthesizer();
         }
 
-        public void StartDialogue(DialogueCreator dialogue, NPCBase npcSpeaking, float waitTime = 1)
+        public IEnumerator StartDialogue(DialogueCreator dialogue, NPCBase npcSpeaking)
         {
             isPlayingDialogue = true;
             currentNPCSpeaking = npcSpeaking;
-            if (currentNPCSpeaking != null) currentNPCSpeaking.canvasGroup.alpha = 0;
-            StartCoroutine(PlayDialogue(dialogue, waitTime));
+            yield return PlayDialogue(dialogue);
         }
 
-        public IEnumerator PlayDialogue(DialogueCreator dialogueCreator, float waitTime = 1)
+        public IEnumerator PlayDialogue(DialogueCreator dialogueCreator)
         {
             StartDialogueNode startDialogueNode = dialogueCreator.nodes.Find(node => node is StartDialogueNode) as StartDialogueNode;
             NodePort outputPort = startDialogueNode.GetOutputPort(nameof(startDialogueNode.baseOutput));
@@ -48,8 +54,8 @@ public class DialogueController : MonoBehaviour
 
             if (firstDialogueNode == null) yield break;
 
-            currentNPCSpeaking?.canvasGroup.DOFade(1, waitTime);
-            yield return new WaitForSeconds(waitTime + 0.2f);
+            if (currentNPCSpeaking != null) yield return currentNPCSpeaking.ShowNPC();
+            yield return new WaitForSeconds(0.2f);
 
             yield return PlayNode(firstDialogueNode);
         }
@@ -103,13 +109,15 @@ public class DialogueController : MonoBehaviour
 
             StartCoroutine(dialogueInstance.GetComponent<TextPanelDialogue>().ShowDialogue(dialogueNode));
 
-            float startTime = Time.time;
-            if (dialogueNode.speaker != DialogueNode.Speaker.PLAYER)
-                yield return PlaySpeech(dialogueNode);
-
-            float remainingTextTime = 2f - (Time.time - startTime);
-            if (remainingTextTime > 0)
-                yield return new WaitForSeconds(remainingTextTime);
+            // float startTime = Time.time;
+            // if (dialogueNode.speaker != DialogueNode.Speaker.PLAYER)
+            //     yield return PlaySpeech(dialogueNode);
+            //
+            // float remainingTextTime = 2f - (Time.time - startTime);
+            // if (remainingTextTime > 0)
+            //     yield return new WaitForSeconds(remainingTextTime);
+            
+            yield return new WaitForSeconds(1);
         }
 
         private IEnumerator PlaySpeech(DialogueNode dialogueNode)
@@ -168,14 +176,10 @@ public class DialogueController : MonoBehaviour
         private IEnumerator ExitNpc()
         {
             if (currentNPCSpeaking == null) yield break;
-
-            currentNPCSpeaking.canvasGroup.DOFade(0, 1);
-            yield return new WaitForSeconds(1);
             
-            EventBus<ShowHideButtonCorkBoard>.Raise(new ShowHideButtonCorkBoard { show = false });
+            yield return currentNPCSpeaking.HideNPC();
             
             isPlayingDialogue = false;
-            Destroy(currentNPCSpeaking.gameObject);
         }
 
         public IEnumerator FollowDialogueOption(BaseNode nextNode, DialogueNode dialoguePlayer)

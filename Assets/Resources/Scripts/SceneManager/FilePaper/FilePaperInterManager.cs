@@ -27,12 +27,12 @@ public class FilePaperInterManager : InterBaseController
         boxCollider.size = rt.sizeDelta;
     }
 
-    public override void Inter(DocumentData documentData)
+    public override void Inter(DocumentBaseController documentBaseController)
     {
         containerVerticalLayout.enabled = false;
         
         GameObject finalObj = null;
-        switch (documentData.documentBaseController)
+        switch (documentBaseController)
         {
             case PaperDragManager paperDragManager:
                 finalObj = InstancePaper(paperDragManager);
@@ -48,7 +48,7 @@ public class FilePaperInterManager : InterBaseController
         {
             finalObj.GetComponent<FileDragController>().filePaperInterManager = this;
             documentFiles.Add(finalObj);
-            documentData.documentBaseController.gameObject.SetActive(false);
+            documentBaseController.gameObject.SetActive(false);
             
             container.SetActive(documentFiles.Count <= 12);
             scrollPanel.SetActive(documentFiles.Count > 12);
