@@ -19,7 +19,7 @@ public class StampController : DragBaseManager
 
     public enum TypeStamp
     {
-        NONE, HOSPITAL, PSYCOLOGIST, POLICE
+        NONE, HOSPITAL, PSYCO, JUSTICE
     }
 
     protected override void Awake()

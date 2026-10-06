@@ -11,6 +11,8 @@ public class AskNPCController : MonoBehaviour
 
     public Button askButton;
 
+    public bool isButtonsShowed = false;
+
     private void Awake()
     {
         EventBus<RestartButtonsAskEvent>.Register(new EventBinding<RestartButtonsAskEvent>(RestartButtons, gameObject));
@@ -23,13 +25,18 @@ public class AskNPCController : MonoBehaviour
 
     private void Start()
     {
+        askButton.onClick.AddListener(() => ShowHideAllQuestions(true));
+        
         foreach (var buttonsQuestion in buttonsQuestions)
             buttonsQuestion.onClick.AddListener(() => AskNpcQuestion(buttonsQuestion));
     }
 
     private void LateUpdate()
     {
-        askButton.gameObject.SetActive(GameManager.instance.isNPCShowed);
+        askButton.transform.localScale =
+            GameManager.instance.isNPCShowed && !DialogueController.instance.isPlayingDialogue && !isButtonsShowed
+                ? Vector3.one
+                : Vector3.zero;
     }
 
     public void AskNpcQuestion(Button button)
@@ -44,6 +51,8 @@ public class AskNPCController : MonoBehaviour
     
     public void ShowHideAllQuestions(bool show)
     {
+        isButtonsShowed = show;
+        
         panelQuestions.blocksRaycasts = show;
         panelQuestions.DOFade(show ? 1 : 0, 0.3f);
     }

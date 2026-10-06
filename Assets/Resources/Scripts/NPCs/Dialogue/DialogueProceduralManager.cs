@@ -11,6 +11,15 @@ public class DialogueProceduralManager : MonoBehaviour
     
     public DialogueProceduralCreator globalDialoguesProcedural;
     public DialogueProceduralCreator globalDialoguesNotKnowDocument;
+    
+    public DialogueProceduralCreator globalAskNpcHospitalCorrect;
+    public DialogueProceduralCreator globalAskNpcHospitalIncorrect;
+    
+    public DialogueProceduralCreator globalAskNpcJusticeCorrect;
+    public DialogueProceduralCreator globalAskNpcJusticeIncorrect;
+    
+    public DialogueProceduralCreator globalAskNpcPsycoCorrect;
+    public DialogueProceduralCreator globalAskNpcPsycoIncorrect;
 
     [Range(1, 10)]
     public int stressThresholdBase = 1;
